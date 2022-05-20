@@ -1,3 +1,9 @@
+//Challenge: Accepted
+#include <bits/stdc++.h>
+#define MAXN 1005
+#define INF 1e9
+#define pb push_back
+using namespace std;
 struct MaxFlow { // 1-base
 	struct edge {
 		int to, cap, flow, rev;
@@ -14,10 +20,9 @@ struct MaxFlow { // 1-base
 		for (int i = 0; i <= n; ++i)
 			for (auto &j : g[i]) j.flow = 0;
 	}
-	void add_edge(int u, int v, int cap) {
+	void addedge(int u, int v, int cap) {
 		g[u].pb(edge{v, cap, 0, (int)g[v].size()});
-		g[v].pb(edge{u, 0, 0, (int)g[u].size() - 1});
-		//change g[v] to cap for undirected graphs
+		g[v].pb(edge{u, cap, 0, (int)g[u].size() - 1});
 	}
 	bool bfs() {
 		fill(dis, dis+n+1, -1);
@@ -59,3 +64,21 @@ struct MaxFlow { // 1-base
 		return flow;
 	}
 }flow;
+int main() {
+	int n;
+	int cases = 1;
+	while (cin >> n && n) {
+		int s, t, m;
+		cin >> s >> t >> m;	
+		flow.init(n - 2);
+		flow.s = s, flow.t = t;
+		for (int i = 0;i < m;i++) {
+			int u, v, w;
+			cin >> u >> v >> w;
+			flow.addedge(u, v, w);
+		}
+		cout << "Network " << cases << "\n";
+		cout << "The bandwidth is " << flow.maxflow() << ".\n\n";	
+		cases++;
+	}
+}
