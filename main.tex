@@ -1,0 +1,176 @@
+\documentclass[twocolumn]{article}
+
+\usepackage[top=1.5cm,bottom=1.5cm,left=0.5cm,right=0.5cm]{geometry}
+\usepackage{xeCJK}
+\usepackage{fontspec}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{changepage}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\setCJKmainfont{Noto Serif CJK TC}
+\setmonofont{Ubuntu Mono}
+
+\lstset{
+language=C++,
+basicstyle=\ttfamily\footnotesize,
+tabsize=2,
+breaklines=true,
+breakatwhitespace=false,
+escapeinside={\%*}{*)},
+morekeywords={*},
+literate={\ \ }{{\ }}1
+}
+
+\begin{document}
+
+\setlength\parindent{0pt}
+\setlength\columnseprule{0.5pt}
+\footnotesize
+
+\tableofcontents
+
+\pagestyle{fancy}
+\fancyfoot{}
+\fancyhead[L]{National Taiwan University}
+\fancyhead[C]{ideograph\_advantage}
+\fancyhead[R]{\thepage}
+
+\section{Basic}
+
+\subsection{Default Code}
+\lstinputlisting{Basic/template.cpp}
+
+\subsection{.vimrc}
+\lstinputlisting{Basic/vimrc}
+
+\section{Data Structure}
+
+\subsection{Heavy-Light Decomposition}
+\lstinputlisting{DataStructure/HLD.cpp}
+
+\subsection{Li-Chao Tree}
+\lstinputlisting{DataStructure/LiChao.cpp}
+
+\subsection{Link Cut Tree}
+\lstinputlisting{DataStructure/LinkCutTree.cpp}
+
+\subsection{Treap}
+\lstinputlisting{DataStructure/treap.cpp}
+
+\section{Flow Matching}
+
+\subsection{Bounded Flow}
+\lstinputlisting{Flow_Matching/Bounded_flow.cpp}
+
+\subsection{Dinic}
+\lstinputlisting{Flow_Matching/Dinic.cpp}
+
+\subsection{Gomory Hu}
+\lstinputlisting{Flow_Matching/GomoryHu.cpp}
+
+\subsection{Hungarian Algorithm}
+\lstinputlisting{Flow_Matching/Hungarian.cpp}
+
+\subsection{ISAP Algorithm}
+\lstinputlisting{Flow_Matching/isap.cpp}
+
+\subsection{KM Algorithm}
+\lstinputlisting{Flow_Matching/KM.cpp}
+
+\subsection{Max Simple Graph Matching}
+\lstinputlisting{Flow_Matching/Max_Simple_Graph_Matching.cpp}
+
+\subsection{MCMF}
+\lstinputlisting{Flow_Matching/MCMF.cpp}
+
+\subsection{Min Cost Circulation}
+\lstinputlisting{Flow_Matching/MinCostCirculation.cpp}
+
+\subsection{SW Mincut}
+\lstinputlisting{Flow_Matching/SW_mincut.cpp}
+
+\section{Geometry}
+
+\subsection{Geometry Template}
+\lstinputlisting{Geometry/GeometryTemplate.cpp}
+
+\subsection{Convex Hull}
+\lstinputlisting{Geometry/ConvexHull.cpp}
+
+\subsection{Minimum Enclosing Circle}
+\lstinputlisting{Geometry/MinimumEnclosingCircle.cpp}
+
+\subsection{Minkowski Sum}
+\lstinputlisting{Geometry/MinkowskiSum.cpp}
+
+\subsection{Half Plane Intersection}
+\lstinputlisting{Geometry/HalfPlaneIntersection.cpp}
+
+\section{Graph}
+
+\subsection{Block Cut Tree}
+\lstinputlisting{Graph/BlockCutTree.cpp}
+
+\subsection{2-SAT}
+\lstinputlisting{Graph/2SAT.cpp}
+
+\subsection{Dominator Tree}
+\lstinputlisting{Graph/DominatorTree.cpp}
+
+\subsection{Virtual Tree}
+\lstinputlisting{Graph/VirtualTree.cpp}
+
+\section{Math}
+
+\subsection{Extended Euclidean Algorithm}
+\lstinputlisting{Math/ExtGCD.cpp}
+
+\subsection{Floor \& Ceil}
+\lstinputlisting{Math/floor_ceil.cpp}
+
+\subsection{Legendre}
+\lstinputlisting{Math/Legendre.cpp}
+
+\subsection{Simplex}
+\lstinputlisting{Math/Simplex.cpp}
+
+%\section{Misc}
+
+\section{Polynomial}
+
+\subsection{FFT}
+\lstinputlisting{Polynomial/FFT.cpp}
+
+\subsection{NTT}
+\lstinputlisting{Polynomial/NTT.cpp}
+
+\section{String}
+
+\subsection{KMP Algorithm}
+\lstinputlisting{String/KMP.cpp}
+
+\subsection{Manacher Algorithm}
+\lstinputlisting{String/Manacher.cpp}
+
+\subsection{MCP}
+\lstinputlisting{String/mcp.cpp}
+
+\subsection{Suffix Array}
+\lstinputlisting{String/SA.cpp}
+
+\subsection{Suffix Array Automaton}
+\lstinputlisting{String/SAM.cpp}
+
+\subsection{Z-value Algorithm}
+\lstinputlisting{String/Zvalue.cpp}
+
+
+\section{Formula}
+\input{Formula.tex}
+%\input{Geometry/GeometryFormula.tex}
+
+\end{document}
