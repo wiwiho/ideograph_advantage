@@ -21,6 +21,7 @@ template<class T> void pary(T l, T r) {
 #define io ios_base::sync_with_stdio(0);cin.tie(0);
 #define iter(v) v.begin(),v.end()
 #define SZ(v) (int)v.size()
+#define pb emplace_back
 int main() {
 	io
 	

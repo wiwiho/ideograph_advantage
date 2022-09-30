@@ -41,7 +41,7 @@ struct MCMF { // 0-base
 		for (int i = 0; i < n; ++i) G[i].clear();
 	}
 	void add_edge(ll a, ll b, ll cap, ll cost) {
-		G[a].push_back(edge{a, b, cap, 0, cost, G[b].size()});
-		G[b].push_back(edge{b, a, 0, 0, -cost, G[a].size() - 1});
+		G[a].pb(edge{a, b, cap, 0, cost, G[b].size()});
+		G[b].pb(edge{b, a, 0, 0, -cost, G[a].size() - 1});
 	}
 };

@@ -15,8 +15,8 @@ struct MaxFlow { // 1-base
 			for (auto &j : g[i]) j.flow = 0;
 	}
 	void add_edge(int u, int v, int cap) {
-		g[u].push_back(edge{v, cap, 0, (int)g[v].size()});
-		g[v].push_back(edge{u, 0, 0, (int)g[u].size() - 1});
+		g[u].pb(edge{v, cap, 0, (int)g[v].size()});
+		g[v].pb(edge{u, 0, 0, (int)g[u].size() - 1});
 		//change g[v] to cap for undirected graphs
 	}
 	bool bfs() {
