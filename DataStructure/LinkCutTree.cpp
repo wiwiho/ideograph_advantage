@@ -1,12 +1,15 @@
-struct Splay { // xor-sum
+struct Splay { // subtree-sum, path-max
 	static Splay nil;
 	Splay *ch[2], *f;
-	int val, sum, rev, size;
-	Splay(int _val = 0)
-		: val(_val), sum(_val), rev(0), size(1) {
+	int val, rev, size, vir, id, type;
+	pii ma;
+	Splay(int _val = 0, int _id = 0)
+		: val(_val), rev(0), size(0), vir(0), id(_id) {
+			ma = make_pair(val, id);
 			f = ch[0] = ch[1] = &nil;
+			type = 0;
 		}
-	bool isr() {
+	bool isr() { //is root
 		return f->ch[0] != this && f->ch[1] != this;
 	}
 	int dir() { return f->ch[0] == this ? 0 : 1; }
@@ -24,8 +27,8 @@ struct Splay { // xor-sum
 	}
 	void pull() {
 		// take care of the nil!
-		size = ch[0]->size + ch[1]->size + 1;
-		sum = ch[0]->sum ^ ch[1]->sum ^ val;
+		size = ch[0]->size + ch[1]->size + vir + type;
+		ma = max(make_pair(val, id), max(ch[0]->ma, ch[1]->ma));
 		if (ch[0] != &nil) ch[0]->f = this;
 		if (ch[1] != &nil) ch[1]->f = this;
 	}
@@ -46,7 +49,7 @@ void splay(Splay *x) {
 		splayVec.pb(q);
 		if (q->isr()) break;
 	}
-	reverse(ALL(splayVec));
+	reverse(iter(splayVec));
 	for (auto it : splayVec) it->push();
 	while (!x->isr()) {
 		if (x->f->isr()) rotate(x);
@@ -57,8 +60,12 @@ void splay(Splay *x) {
 }
 Splay *access(Splay *x) {
 	Splay *q = nil;
-	for (; x != nil; x = x->f)
-		splay(x), x->setCh(q, 1), q = x;
+	for (; x != nil; x = x->f){
+		splay(x);
+		x->vir -= q->size; x->vir += x->ch[1]->size;
+		x->setCh(q, 1); x->pull();
+		q = x;
+	}
 	return q;
 }
 void root_path(Splay *x) { access(x), splay(x); }
@@ -70,14 +77,14 @@ void split(Splay *x, Splay *y) {
 	chroot(x), root_path(y);
 }
 void link(Splay *x, Splay *y) {
-	root_path(x), chroot(y);
-	x->setCh(y, 1);
+	chroot(x), root_path(y);
+	x->f = y; y->vir += x->size;
 }
 void cut(Splay *x, Splay *y) {
 	split(x, y);
-	if (y->size != 5) return;
 	y->push();
 	y->ch[0] = y->ch[0]->f = nil;
+	y->pull();
 }
 Splay *get_root(Splay *x) {
 	for (root_path(x); x->ch[0] != nil; x = x->ch[0])
@@ -96,7 +103,7 @@ Splay *lca(Splay *x, Splay *y) {
 void change(Splay *x, int val) {
 	splay(x), x->val = val, x->pull();
 }
-int query(Splay *x, Splay *y) {
+pii query(Splay *x, Splay *y) {
 	split(x, y);
-	return y->sum;
+	return y->ma;
 }
