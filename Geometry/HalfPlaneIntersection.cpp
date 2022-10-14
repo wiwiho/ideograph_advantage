@@ -37,3 +37,4 @@ vector<Line> halfPlaneInter(vector<Line> lines) {
 	while (SZ(dq) >= 3 && !isin(dq.back(), dq[0], dq[1])) 
 		dq.pop_front();
 	return vector<Line>(ALL(dq));
+}
