@@ -1,4 +1,4 @@
-\documentclass[twocolumn]{article}
+\documentclass{article}
 
 \usepackage[top=1.5cm,bottom=0.5cm,left=0.5cm,right=0.5cm]{geometry}
 \usepackage{xeCJK}
@@ -11,6 +11,7 @@
 \usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{graphicx}
+\usepackage{tikz}
 \setCJKmainfont{Noto Serif CJK TC}
 \setmonofont{Ubuntu Mono}
 
@@ -25,19 +26,32 @@ morekeywords={*},
 literate={\ \ }{{\ }}1
 }
 
+\newcommand{\makegrid}{
+\clearpage
+
+\begin{center}
+    \begin{tikzpicture}
+        \draw[step=1, gray, thin] (0,0) grid (20.0, 25.0);
+    \end{tikzpicture}
+\end{center}
+}
+
 \begin{document}
 
 \setlength\parindent{0pt}
 \setlength\columnseprule{0.5pt}
 \footnotesize
 
-\tableofcontents
 
 \pagestyle{fancy}
 \fancyfoot{}
 \fancyhead[L]{National Taiwan University}
 \fancyhead[C]{ideograph\_advantage}
 \fancyhead[R]{\thepage}
+
+\twocolumn
+
+\tableofcontents
 
 \section{Basic}
 
@@ -185,5 +199,11 @@ literate={\ \ }{{\ }}1
 
 \section{Formula}
 \input{Formula.tex}
+
+\onecolumn
+
+\makegrid
+\makegrid
+\makegrid
 
 \end{document}
