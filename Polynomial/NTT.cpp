@@ -13,14 +13,14 @@ struct NTT {
 		w[0] = 1;
 		for (int i = 1; i < MAXN; ++i) w[i] = w[i - 1] * dw % P;
 	}
-	void bitrev(ll *a, int n) {
+	void bitrev(vector<ll> &a, int n) {
 		int i = 0;
 		for (int j = 1; j < n - 1; ++j) {
 			for (int k = n >> 1; (i ^= k) < k; k >>= 1);
 			if (j < i) swap(a[i], a[j]);
 		}
 	}
-	void operator()(ll *a, int n, bool inv = false) { //0 <= a[i] < P
+	void operator()(vector<ll> &a, int n, bool inv = false) { //0 <= a[i] < P
 		bitrev(a, n);
 		for (int L = 2; L <= n; L <<= 1) {
 			int dx = MAXN / L, dl = L >> 1;
@@ -33,7 +33,7 @@ struct NTT {
 			}
 		}
 		if (inv) {
-			reverse(a + 1, a + n);
+			reverse(a.begin()+1, a.begin()+n);
 			ll invn = minv(n);
 			for (int i = 0; i < n; ++i) a[i] = a[i] * invn % P;
 		}
