@@ -1,7 +1,8 @@
-using NumType = ld;
-pair<Pt, ld> MinimumEnclosingCircle(vector<Pt> &pts){
+using ld = long double;
+pair<pdd, ld> circumcenter(pdd a, pdd b, pdd c);
+pair<pdd, ld> MinimumEnclosingCircle(vector<pdd> &pts){
 	random_shuffle(iter(pts));
-	Pt c = pts[0];
+	pdd c = pts[0];
 	ld r = 0;
 	for(int i = 1; i < SZ(pts); i++){
 		if(abs(pts[i] - c) <= r) continue;
@@ -12,7 +13,7 @@ pair<Pt, ld> MinimumEnclosingCircle(vector<Pt> &pts){
 			r = abs(pts[i] - c);
 			for(int k = 0; k < j; k++){
 				if(abs(pts[k] - c) > r)
-					c = circumcenter(pts[i], pts[j], pts[k]);
+					tie(c, r) = circumcenter(pts[i], pts[j], pts[k]);
 			}
 		}
 	}

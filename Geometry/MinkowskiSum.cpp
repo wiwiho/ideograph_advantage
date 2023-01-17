@@ -1,4 +1,4 @@
-void reorder_poly(vector<Pt>& pnts){
+void reorder_poly(vector<pdd>& pnts){
 	int mn = 0;
 	for(int i = 1; i < (int)pnts.size(); i++){
 		if(pnts[i].Y < pnts[mn].Y || (pnts[i].Y == pnts[mn].Y && pnts[i].X < pnts[mn].X)) 
@@ -7,7 +7,7 @@ void reorder_poly(vector<Pt>& pnts){
 	rotate(pnts.begin(), pnts.begin() + mn, pnts.end());
 }
 
-vector<Pt> minkowski(vector<Pt> P, vector<Pt> Q){
+vector<pdd> minkowski(vector<pdd> P, vector<pdd> Q){
 	reorder_poly(P);
 	reorder_poly(Q);
 	int psz = P.size();
@@ -16,7 +16,7 @@ vector<Pt> minkowski(vector<Pt> P, vector<Pt> Q){
 	P.eb(P[1]);
 	Q.eb(Q[0]);
 	Q.eb(Q[1]);
-	vector<Pt> ans;
+	vector<pdd> ans;
 	int i = 0, j = 0;
 	while(i < psz || j < qsz){
 		ans.eb(P[i] + Q[j]);
