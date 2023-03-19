@@ -3,7 +3,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define io ios_base::sync_with_stdio(0);cin.tie(0)
+#define io ios_base::sync_with_stdio(0);cin.tie(0);cerr.tie(0)
 #define iter(v) v.begin(),v.end()
 #define SZ(v) (int)v.size()
 #define pb emplace_back
@@ -16,12 +16,12 @@ using pii = pair<int, int>;
 using pll = pair<ll, ll>;
 
 #ifdef zisk
-void debug(){cout << endl;}
+void debug(){cerr << "\n";}
 template<class T, class ... U>
-void debug(T a, U ... b){cout << a << " ", debug(b...);}
+void debug(T a, U ... b){cerr << a << " ", debug(b...);}
 template<class T> void pary(T l, T r){
-	while (l != r) cout << *l << " ", l++;
-	cout << endl;
+	while (l != r) cerr << *l << " ", l++;
+    cerr << "\n";
 }
 #else
 #define debug(...) void()
