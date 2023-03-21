@@ -70,6 +70,19 @@ y = r\sin\theta\sin\phi & \theta = \textrm{acos}(z/\sqrt{x^2+y^2+z^2})\\
 z = r\cos\theta & \phi = \textrm{atan2}(y,x)
 \end{array}\]
 
+\subsubsection{Green's Theorem}
+
+\[ \text{Area} = \frac{1}{2} \int_C x\ dy - y\ dx \]
+
+Circular sector:
+
+\begin{align*}
+    x &= x_0 + r\cos\theta \\
+    y &= y_0 + r\sin\theta \\
+    A &= r \int_\alpha^\beta (y_0 + \sin\theta)\cos\theta + (x_0 + \cos\theta)\sin\theta\ d\theta \\
+      &= r (r \theta + x_0 \sin\theta - y_0 \cos\theta) \rvert_\alpha^\beta
+\end{align*}
+
 \subsection{Derivatives/Integrals}
 \begin{align*}
 	\dfrac{d}{dx}\arcsin x = \dfrac{1}{\sqrt{1-x^2}} &&& \dfrac{d}{dx}\arccos x = -\dfrac{1}{\sqrt{1-x^2}} \\
