@@ -1,0 +1,37 @@
+name: Compile Codebook
+run-name: Compile codebook
+on: [push]
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    container: ghcr.io/wiwiho/codebook:latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Check unused files
+        run: |
+          chmod +x scripts/check_usage.sh
+          scripts/check_usage.sh
+      - name: Check indentations
+        run: |
+          chmod +x scripts/check_indent.sh
+          scripts/check_indent.sh -b
+      - name: Compile
+        run: |
+          texfot latexmk -xelatex main.tex
+          cp main.pdf /root/ideograph_advantage_codebook.pdf
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: build
+      - name: Copy PDF
+        run: cp /root/ideograph_advantage_codebook.pdf .
+      - name: Set safe directory
+        run: git config --global --add safe.directory $GITHUB_WORKSPACE
+      - name: Commit
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: build from ${{ github.ref_name }} - ${{ github.sha }}
+          file_pattern: ideograph_advantage_codebook.pdf
