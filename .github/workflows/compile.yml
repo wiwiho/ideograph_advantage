@@ -17,7 +17,7 @@ jobs:
       - name: Check indentations
         run: |
           chmod +x scripts/check_indent.sh
-          scripts/check_indent.sh
+          scripts/check_indent.sh -b
       - name: Compile
         run: |
           texfot latexmk -xelatex main.tex
