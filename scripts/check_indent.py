@@ -1,10 +1,12 @@
 import sys
+import argparse
 
-if len(sys.argv) != 2:
-    print("Usage: python check_indent.py <file>")
-    exit(0)
+parser = argparse.ArgumentParser()
+parser.add_argument('filename')
+parser.add_argument('-b', '--bad-only', action='store_true')
+args = parser.parse_args()
 
-filename = sys.argv[1]
+filename = args.filename
 tab = False
 space = False
 minlength = 0
@@ -13,6 +15,8 @@ with open(filename) as f:
         length = 0
         for i in range(len(line)):
             if line[i] != ' ' and line[i] != '\t':
+                if line[i] == '*':
+                    break
                 length = i
                 break
             elif line[i] == ' ':
@@ -29,8 +33,11 @@ NC = '\033[0m'
 if tab and space:
     print(f"{RED}{filename}: mix{NC}")
 elif tab:
-    print(f"{filename}: tab")
+    if not args.bad_only:
+        print(f"{filename}: tab")
 else:
     if minlength != 0 and minlength != 2:
-        print(f"{RED}", end='')
-    print(f"{filename}: space width {minlength}{NC}")
+        print(f"{RED}{filename}: space width {minlength}{NC}")
+    else:
+        if not args.bad_only:
+            print(f"{filename}: space width {minlength}")

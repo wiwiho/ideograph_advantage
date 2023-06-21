@@ -7,5 +7,5 @@ fi
 
 PATTERN='.*.cpp'
 find . -regextype posix-egrep -regex "$PATTERN" | while read file; do
-    python scripts/check_indent.py "$file"
+    python scripts/check_indent.py "$file" $@
 done

@@ -7,9 +7,14 @@ if [[ ! -f main.tex ]]; then
     exit 1
 fi
 
-echo "Check unused files"
+BLUE='\033[1;34m'
+NC='\033[0m'
+
+printf "${BLUE}Check unused files$NC\n"
 scripts/check_usage.sh
-echo "Compile main.tex..."
+printf "${BLUE}Check indentations$NC\n"
+scripts/check_indent.sh -b
+printf "${BLUE}Compile main.tex...$NC\n"
 texfot latexmk -xelatex main.tex
-echo "Done"
+printf "${BLUE}Done$NC\n"
 
