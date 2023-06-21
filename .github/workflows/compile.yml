@@ -24,7 +24,10 @@ jobs:
                 ref: build
                 clean: false
             - name: Rename PDF
-              run: mv main.pdf ideograph_advantage_codebook.pdf
+              run: |
+                pwd
+                ls -a
+                mv main.pdf ideograph_advantage_codebook.pdf
             - name: Commit
               uses: stefanzweifel/git-auto-commit-action@v4
               with:
