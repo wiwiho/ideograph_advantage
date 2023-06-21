@@ -18,4 +18,15 @@ jobs:
                 scripts/check_indent.sh
             - name: Compile
               run: texfot latexmk -xelatex main.tex
-#testing
+            - name: Checkout
+              uses: actions/checkout@v3
+              with:
+                ref: build
+                clean: false
+            - name: Rename PDF
+              run: mv main.pdf ideograph_advantage_codebook.pdf
+            - name: Commit
+              uses: stefanzweifel/git-auto-commit-action@v4
+              with:
+                commit_message: build
+                file_pattern: ideograph_advantage_codebook.pdf
