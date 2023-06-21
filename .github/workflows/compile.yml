@@ -10,8 +10,8 @@ jobs:
               uses: actions/checkout@v3
             - name: Install font
               run: |
-                chmod +x scripts/install_source_code_pro.sh
-                scripts/install_source_code_pro.sh
+                chmod +x scripts/install_consolas.sh
+                scripts/install_consolas.sh
             - name: Check unused files
               run: |
                 chmod +x scripts/check_usage.sh
