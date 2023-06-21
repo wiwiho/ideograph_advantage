@@ -4,15 +4,22 @@ on: [push]
 jobs:
     compile:
         runs-on: ubuntu-latest
+        container: ghcr.io/wiwiho/codebook:latest
         steps:
-            - name: Install packages
-              run: sudo apt install python3 texlive-full
             - name: Checkout
               uses: actions/checkout@v3
+            - name: Install font
+              run: |
+                chmod +x scripts/install_source_code_pro.sh
+                scripts/install_source_code_pro.sh
             - name: Check unused files
-              run: scripts/check_usage.sh
+              run: |
+                chmod +x scripts/check_usage.sh
+                scripts/check_usage.sh
             - name: Check indentations
-              run: scripts/check_indent.sh
+              run: |
+                chmod +x scripts/check_indent.sh
+                scripts/check_indent.sh
             - name: Compile
               run: texfot latexmk -xelatex main.tex
 #testing
