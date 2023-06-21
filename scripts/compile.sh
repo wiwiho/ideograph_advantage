@@ -7,10 +7,9 @@ if [[ ! -f main.tex ]]; then
     exit 1
 fi
 
-scripts/check.sh
+echo "Check unused files"
+scripts/check_usage.sh
 echo "Compile main.tex..."
-xelatex -halt-on-error main.tex > /dev/null
-echo "Compile main.tex..."
-xelatex -halt-on-error main.tex > /dev/null
+texfot latexmk -xelatex main.tex
 echo "Done"
 

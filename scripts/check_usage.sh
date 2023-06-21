@@ -5,18 +5,19 @@ if [[ ! -f main.tex ]]; then
     exit 1
 fi
 
-IFS=$'\n'
-files=($(tree -fi))
-
-for file in "${files[@]}"; do
-    if [[ ! "$file" =~ .cpp$ ]] && [[ ! "$file" =~ .tex$ ]] && [[ ! "$file" =~ rc$ ]]; then
-        continue
-    fi
+check_file(){
+    file=$1
     if [[ "$file" = "./main.tex" ]]; then
-        continue
+        return
     fi
     cat main.tex | grep "${file:2}" > /dev/null
     if [[ $? -ne 0 ]]; then
         echo "Warning: file $file is not in main.tex"
     fi
+}
+
+PATTERN='.*(.cpp|.tex|rc)'
+find . -regextype posix-egrep -regex "$PATTERN" | while read file; do
+    check_file "$file"
 done
+
