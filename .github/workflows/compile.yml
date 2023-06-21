@@ -6,7 +6,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Install packages
-              run: apt install python3 texlive-full
+              run: sudo apt install python3 texlive-full
             - name: Checkout
               uses: actions/checkout@v3
             - name: Check unused files
