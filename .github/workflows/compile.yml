@@ -26,6 +26,8 @@ jobs:
                 ref: build
             - name: Copy PDF
               run: cp /root/ideograph_advantage_codebook.pdf .
+            - name: Set safe directory
+              run: git config --global --add safe.directory $GITHUB_WORKSPACE
             - name: Commit
               uses: stefanzweifel/git-auto-commit-action@v4
               with:

@@ -12,3 +12,5 @@ RUN apt-get install -y cabextract
 
 COPY install_consolas.sh install_consolas.sh
 RUN ./install_consolas.sh && rm install_consolas.sh
+
+RUN apt-get install -y git
