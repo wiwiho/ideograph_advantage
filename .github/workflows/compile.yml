@@ -8,10 +8,6 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v3
-            - name: Install font
-              run: |
-                chmod +x scripts/install_consolas.sh
-                scripts/install_consolas.sh
             - name: Check unused files
               run: |
                 chmod +x scripts/check_usage.sh

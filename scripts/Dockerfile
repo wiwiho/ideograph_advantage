@@ -9,3 +9,6 @@ RUN apt-get install -y python-is-python3
 RUN apt-get install -y wget
 RUN apt-get install -y fonts-noto-cjk
 RUN apt-get install -y cabextract
+
+COPY install_consolas.sh install_consolas.sh
+RUN ./install_consolas.sh && rm install_consolas.sh
