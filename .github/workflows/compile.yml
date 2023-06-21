@@ -17,17 +17,15 @@ jobs:
                 chmod +x scripts/check_indent.sh
                 scripts/check_indent.sh
             - name: Compile
-              run: texfot latexmk -xelatex main.tex
+              run: |
+                texfot latexmk -xelatex main.tex
+                cp main.pdf /root/ideograph_advantage_codebook.pdf
             - name: Checkout
               uses: actions/checkout@v3
               with:
                 ref: build
-                clean: false
-            - name: Rename PDF
-              run: |
-                pwd
-                ls -a
-                mv main.pdf ideograph_advantage_codebook.pdf
+            - name: Copy PDF
+              run: cp /root/ideograph_advantage_codebook.pdf .
             - name: Commit
               uses: stefanzweifel/git-auto-commit-action@v4
               with:
