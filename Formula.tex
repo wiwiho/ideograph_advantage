@@ -4,24 +4,6 @@ If $a_n = c_1 a_{n-1} + \dots + c_k a_{n-k}$, and $r_1, \dots, r_k$ are distinct
 \[a_n = d_1r_1^n + \dots + d_kr_k^n. \]
 Non-distinct roots $r$ become polynomial factors, e.g. $a_n = (d_1n + d_2)r^n$.
 
-\subsection{Trigonometry}
-\begin{align*}
-\sin(v+w)&{}=\sin v\cos w+\cos v\sin w\\
-\cos(v+w)&{}=\cos v\cos w-\sin v\sin w\\
-\end{align*}
-\begin{align*}
-\tan(v+w)&{}=\dfrac{\tan v+\tan w}{1-\tan v\tan w}\\
-\sin v+\sin w&{}=2\sin\dfrac{v+w}{2}\cos\dfrac{v-w}{2}\\
-\cos v+\cos w&{}=2\cos\dfrac{v+w}{2}\cos\dfrac{v-w}{2}
-\end{align*}
-\[ (V+W)\tan(v-w)/2{}=(V-W)\tan(v+w)/2 \]
-where $V, W$ are lengths of sides opposite angles $v, w$.
-\begin{align*}
-	a\cos x+b\sin x&=r\cos(x-\phi)\\
-	a\sin x+b\cos x&=r\sin(x+\phi)
-\end{align*}
-where $r=\sqrt{a^2+b^2}, \phi=\operatorname{atan2}(b,a)$.
-
 \subsection{Geometry}
 
 \subsubsection{Triangles}
@@ -86,16 +68,59 @@ Circular sector:
       &= r (r \theta + x_0 \sin\theta - y_0 \cos\theta) \rvert_\alpha^\beta
 \end{align*}
 
+\subsection{Trigonometry}
+\begin{align*}
+    \sinh x = \frac{1}{2}(e^x - e^{-x}) &&& \cosh x = \frac{1}{2}(e^x + e^{-x}) \\
+    \sin n\pi = 0 &&& \cos n\pi = (-1)^n
+\end{align*}
+\begin{align*}
+\sin(\alpha+\beta)&{}=\sin \alpha\cos \beta+\cos \alpha\sin \beta\\
+\cos(\alpha+\beta)&{}=\cos \alpha\cos \beta-\sin \alpha\sin \beta\\
+\sin(2\alpha) &{}=2\cos \alpha \sin \alpha \\
+\cos(2\alpha) &{}=\cos^2 \alpha - \sin^2 \alpha \\
+         &{}=2\cos^2 \alpha - 1 \\
+         &{}=1 - 2 \sin^2 \alpha
+\end{align*}
+\begin{align*}
+\tan(\alpha+\beta)&{}=\dfrac{\tan \alpha+\tan \beta}{1-\tan \alpha\tan \beta}\\
+\sin \alpha+\sin \beta&{}=2\sin\dfrac{\alpha+\beta}{2}\cos\dfrac{\alpha-\beta}{2}\\
+\cos \alpha+\cos \beta&{}=2\cos\dfrac{\alpha+\beta}{2}\cos\dfrac{\alpha-\beta}{2} \\
+\sin \alpha \sin \beta&{}=\frac{1}{2}(\cos(\alpha - \beta) - \cos(\alpha + \beta)) \\
+\sin \alpha \cos \beta&{}=\frac{1}{2}(\sin(\alpha + \beta) + \sin(\alpha - \beta)) \\
+\cos \alpha \sin \beta&{}=\frac{1}{2}(\sin(\alpha + \beta) - \sin(\alpha - \beta)) \\
+\cos \alpha \cos \beta&{}=\frac{1}{2}(\cos(\alpha - \beta) + \cos(\alpha + \beta))
+\end{align*}
+\[ (V+W)\tan(\alpha-\beta)/2{}=(V-W)\tan(\alpha+\beta)/2 \]
+where $V, W$ are lengths of sides opposite angles $\alpha, \beta$.
+\begin{align*}
+	a\cos x+b\sin x&=r\cos(x-\phi)\\
+	a\sin x+b\cos x&=r\sin(x+\phi)
+\end{align*}
+where $r=\sqrt{a^2+b^2}, \phi=\operatorname{atan2}(b,a)$.
+
 \subsection{Derivatives/Integrals}
+
+Integration by parts:
+\[\int_a^bf(x)g(x)dx = [F(x)g(x)]_a^b-\int_a^bF(x)g'(x)dx\]
+
 \begin{align*}
 	\dfrac{d}{dx}\arcsin x = \dfrac{1}{\sqrt{1-x^2}} &&& \dfrac{d}{dx}\arccos x = -\dfrac{1}{\sqrt{1-x^2}} \\
 	\dfrac{d}{dx}\tan x = 1+\tan^2 x &&& \dfrac{d}{dx}\arctan x = \dfrac{1}{1+x^2} \\
 	\int\tan ax = -\dfrac{\ln|\cos ax|}{a} &&& \int x\sin ax = \dfrac{\sin ax-ax \cos ax}{a^2} \\
-	\int e^{-x^2} = \frac{\sqrt \pi}{2} \text{erf}(x) &&& \int xe^{ax}dx = \frac{e^{ax}}{a^2}(ax-1)
+	\int e^{-x^2} = \frac{\sqrt \pi}{2} \text{erf}(x) &&& \int xe^{ax} = \frac{e^{ax}}{a^2}(ax-1) \\
+    \int \sin^2(x) = \frac{x}{2} - \frac{1}{4} \sin 2x &&& \int \sin^3 x = \frac{1}{12}\cos 3x - \frac{3}{4} \cos x \\
+    \int \cos^2(x) = \frac{x}{2} + \frac{1}{4} \sin 2x &&& \int \cos^3 x = \frac{1}{12}\sin 3x + \frac{3}{4} \sin x \\
+    \int x \sin x = \sin x - x \cos x &&& \int x \cos x = \cos x + x \sin x \\
+    \int xe^x = e^x(x - 1) &&& \int x^2 e^x = e^x(x^2 - 2x + 2) \\
 \end{align*}
-
-Integration by parts:
-\[\int_a^bf(x)g(x)dx = [F(x)g(x)]_a^b-\int_a^bF(x)g'(x)dx\]
+\begin{align*}
+    \int x^2 \sin x &= 2x \sin x - (x^2 - 2) \cos x \\
+    \int x^2 \cos x &= 2x \cos x + (x^2 - 2) \sin x \\
+    \int e^x \sin x &= \frac{1}{2}e^x (\sin x - \cos x) \\
+    \int e^x \cos x &= \frac{1}{2}e^x (\sin x + \cos x) \\
+    \int xe^x \sin x &= \frac{1}{2}e^x (x \sin x - x \cos x + \cos x) \\
+    \int xe^x \cos x &= \frac{1}{2}e^x (x \sin x + x \cos x - \sin x)
+\end{align*}
 
 \subsection{Sums}
 \[ c^a + c^{a+1} + \dots + c^{b} = \frac{c^{b+1} - c^a}{c-1}, c \neq 1 \]
