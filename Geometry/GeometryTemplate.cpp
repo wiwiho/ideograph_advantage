@@ -48,3 +48,7 @@ pdd intersect(Line a, Line b){
   ld a124 = cross(p2 - p1, p4 - p1);
   return (p4 * a123 - p3 * a124) / (a123 - a124);
 }
+pdd perp(pdd p1)
+{ return pdd(-p1.Y, p1.X); }
+pdd projection(pdd p1, pdd p2, pdd p3)
+{ return (p2 - p1) * dot(p3 - p1, p2 - p1) / abs2(p2 - p1); }
