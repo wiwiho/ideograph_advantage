@@ -8,12 +8,18 @@
     \item $C(x) = A(x)^k$: $c_n = \sum\limits_{i_1 + i_2 + \ldots + i_k = n} a_{i_1}a_{i_2} \ldots a_{i_k}$ 的一般生成函數。
     \item $C(x) = xA(x)'$: $c_n = na_n$ 的一般生成函數。
     \item $C(x) = \frac{A(x)}{1 - x}$: $c_n = \sum\limits_{i = 0}^n a_i$ 的一般生成函數。
+	\item $C(x) = A(1) + \frac{A(1) - A(x)}{1-x}$: $c_n = \sum\limits_{i=n}^{\infty} a_i$ 的一般生成函數。
 \end{itemize}
 
 常用展開式
 \begin{itemize}
     \item $\frac{1}{1 - x} = 1 + x + x^2 + \ldots + x^n + \ldots$
     \item $(1 + x)^a = \sum\limits_{n = 0}^{\infty} \binom{a}{n} x^n, \, \binom{a}{n} = \frac{a(a - 1)(a - 2) \ldots (a - n + 1)}{n!}$.
+\end{itemize}
+
+常見生函
+\begin{itemize}
+	\item 卡特蘭數：$f(x) = \frac{1 - \sqrt{1-4x}}{2x}$
 \end{itemize}
 
 \subsubsection{Exponential Generating Function}
@@ -28,4 +34,5 @@ $a_0,a_1,\dots$ 的指數生成函數：
     \item $\hat C(x) = x\hat A(x)$: $c_n=na_n$ 的指數生成函數
     \item $\hat C(x) = \hat A(x)\hat B(x)$: $c_n=\sum_{k=0}^n \binom{n}{i} a_kb_{n-k}$ 的指數生成函數
     \item $\hat C(x) = \hat A(x)^k$: $\sum\limits_{i_1+i_2+\dots+i_k=n} \binom{n}{i_1,i_2,\dots,i_k}a_ia_{i_2}\dots a_{i_k}$ 的指數生成函數
+	\item $\hat C(x) = \exp(A(x))$: 假設 $A(x)$ 是一個分量 (component) 的生成函數，那 $\hat C(x)$ 是將 $n$ 個有編號的東西分成若干個分量的指數生成函數
 \end{itemize}
