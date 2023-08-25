@@ -51,4 +51,4 @@ pdd intersect(Line a, Line b){
 pdd perp(pdd p1)
 { return pdd(-p1.Y, p1.X); }
 pdd projection(pdd p1, pdd p2, pdd p3)
-{ return (p2 - p1) * dot(p3 - p1, p2 - p1) / abs2(p2 - p1); }
+{ return p1 + (p2 - p1) * dot(p3 - p1, p2 - p1) / abs2(p2 - p1); }
