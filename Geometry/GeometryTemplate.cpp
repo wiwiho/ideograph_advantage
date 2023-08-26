@@ -25,7 +25,7 @@ ld abs(pdd v)
 { return sqrt(abs2(v)); };
 int sgn(ld v)
 { return v > 0 ? 1 : (v < 0 ? -1 : 0); }
-// int sgn(NumType v){ return v > eps ? 1 : ( v < -eps ? -1 : 0); }
+// int sgn(ld v){ return v > eps ? 1 : ( v < -eps ? -1 : 0); }
 int ori(pdd a, pdd b, pdd c)
 { return sgn(cross(b - a, c - a)); }
 bool collinearity(pdd a, pdd b, pdd c)
