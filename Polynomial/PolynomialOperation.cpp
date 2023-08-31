@@ -22,9 +22,9 @@ struct Poly : vector<ll> { // coefficients in [0, P)
     int m = 1;
     while (m < n() + rhs.n() - 1) m <<= 1;
     Poly X(*this, m), Y(rhs, m);
-    ntt(X.data(), m), ntt(Y.data(), m);
+    ntt(X, m), ntt(Y, m);
     fi(0, m) X[i] = X[i] * Y[i] % P;
-    ntt(X.data(), m, true);
+    ntt(X, m, true);
     return X.isz(n() + rhs.n() - 1);
   }
   Poly Inv() const { // (*this)[0] != 0, 1e5/95ms
@@ -33,14 +33,31 @@ struct Poly : vector<ll> { // coefficients in [0, P)
     while (m < n() * 2) m <<= 1;
     Poly Xi = Poly(*this, (n() + 1) / 2).Inv().isz(m);
     Poly Y(*this, m);
-    ntt(Xi.data(), m), ntt(Y.data(), m);
+    ntt(Xi, m), ntt(Y, m);
     fi(0, m) {
       Xi[i] *= (2 - Xi[i] * Y[i]) % P;
       if ((Xi[i] %= P) < 0) Xi[i] += P;
     }
-    ntt(Xi.data(), m, true);
+    ntt(Xi, m, true);
     return Xi.isz(n());
   }
+	Poly& shift_inplace(const ll &c) { //to be tested
+    int n = this->n();
+		vector<ll> fc(n), ifc(n);
+		fc[0] = ifc[0] = 1;
+		for (int i = 1; i < n; i++){
+				fc[i] = fc[i-1] * i % P;
+				ifc[i] = minv(fc[i]);
+		}
+		for (int i = 0; i < n; i++) (*this)[i] = (*this)[i] * fc[i] % P;
+		Poly g(n);
+		ll cp = 1;
+		for (int i = 0; i < n; i++) g[i] = cp * ifc[i] % P, cp = cp * c % P;
+		*this = (*this).irev().Mul(g).isz(n).irev();
+		for (int i = 0; i < n; i++) (*this)[i] = (*this)[i] * ifc[i] % P;
+		return *this;
+  }
+  Poly shift(const ll &c) const { return Poly(*this).shift_inplace(c); }
   Poly Sqrt() const { // Jacobi((*this)[0], P) = 1, 1e5/235ms
     if (n() == 1) return {QuadraticResidue((*this)[0], P)};
     Poly X = Poly(*this, (n() + 1) / 2).Sqrt().isz(n());
@@ -139,3 +156,5 @@ struct Poly : vector<ll> { // coefficients in [0, P)
 #undef fi
 using Poly_t = Poly<131072 * 2, 998244353, 3>;
 template<> decltype(Poly_t::ntt) Poly_t::ntt = {};
+
+    
