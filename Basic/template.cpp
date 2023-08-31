@@ -7,7 +7,6 @@ using namespace std;
 #define iter(v) v.begin(),v.end()
 #define SZ(v) (int)v.size()
 #define pb emplace_back
-#define mp make_pair
 #define ff first
 #define ss second
 
