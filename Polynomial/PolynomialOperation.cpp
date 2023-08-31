@@ -41,7 +41,7 @@ struct Poly : vector<ll> { // coefficients in [0, P)
     ntt(Xi, m, true);
     return Xi.isz(n());
   }
-	Poly& shift_inplace(const ll &c) { //to be tested
+  Poly& shift_inplace(const ll &c) { //to be tested
     int n = this->n();
 		vector<ll> fc(n), ifc(n);
 		fc[0] = ifc[0] = 1;
@@ -56,7 +56,7 @@ struct Poly : vector<ll> { // coefficients in [0, P)
 		*this = (*this).irev().Mul(g).isz(n).irev();
 		for (int i = 0; i < n; i++) (*this)[i] = (*this)[i] * ifc[i] % P;
 		return *this;
-  }
+	}
   Poly shift(const ll &c) const { return Poly(*this).shift_inplace(c); }
   Poly Sqrt() const { // Jacobi((*this)[0], P) = 1, 1e5/235ms
     if (n() == 1) return {QuadraticResidue((*this)[0], P)};
