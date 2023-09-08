@@ -5,12 +5,15 @@ int get_z(vector<int> const& z, int i) {
 vector<pair<int, int>> rep;
 
 void convert_to_rep(int shift, bool left, int cntr, int l, int k1, int k2) {
-  for (int l1 = max(1, l - k2); l1 <= min(l, k1); l1++) {
-    if (left && l1 == l) break;
-    int l2 = l - l1;
-    int pos = shift + (left ? cntr - l1 : cntr - l - l1 + 1);
-    rep.emplace_back(pos, pos + 2*l - 1);
-  }
+	int lef = max(1, l-k2), rig = min(l, k1);
+	int minl, maxl;
+	if (left) {
+		rig = min(rig, l-1);
+		minl = shift + cntr - rig, maxl = shift+cntr-lef;	
+	} else {
+		minl = shift + cntr - l - rig + 1, maxl = shift + cntr - l - lef + 1; 
+	}
+	//left endpoint: [minl, maxl], length: 2*l
 }
 
 void find_rep(string s, int shift = 0) {
