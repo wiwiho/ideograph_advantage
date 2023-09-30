@@ -1,12 +1,13 @@
-const int len = 2000005, sigma = 26;
+const int maxn = 300005, maxc = 26;
 struct AC_Automaton { //1-base
-	int nx[len][sigma], fl[len], cnt[len], pri[len], top;
-	//pri: bfs order of trie
+	int nx[maxn][maxc], fl[maxn], cnt[maxn], pri[maxn], tot;
+	//pri: bfs order of trie (0-base)
 	int newnode() {
-		fill(nx[top], nx[top] + sigma, -1);
-		return top++;
+		tot++;
+		fill(nx[tot], nx[tot] + maxc, -1);
+		return tot;
 	}
-	void init() { top = 1, newnode(); }
+	void init() { tot = 0, newnode(); }
 	int input(string &s) { // return the end_node of string
 		int X = 1;
 		for (char c : s) {
@@ -21,7 +22,7 @@ struct AC_Automaton { //1-base
 		for (int t = 0; !q.empty();) {
 			int R = q.front();
 			q.pop(), pri[t++] = R;
-			for (int i = 0; i < sigma; ++i)
+			for (int i = 0; i < maxc; ++i)
 				if (~nx[R][i]) {
 					int X = nx[R][i], Z = fl[R];
 					for (; Z && !~nx[Z][i];) Z = fl[Z];
@@ -30,13 +31,15 @@ struct AC_Automaton { //1-base
 		}
 	}
 	void get_v(string &s) {
+		//number of times prefix appears in strings
 		int X = 1;
-		fill(cnt, cnt + top, 0);
+		fill(cnt, cnt + tot+1, 0);
 		for (char c : s) {
 			while (X && !~nx[X][c - 'a']) X = fl[X];
 			X = X ? nx[X][c - 'a'] : 1, ++cnt[X];
 		}
-		for (int i = top - 2; i > 0; --i)
+		for (int i = tot-1; i > 0; --i)
 			cnt[fl[pri[i]]] += cnt[pri[i]];
 	}
-};
+} ac;
+
