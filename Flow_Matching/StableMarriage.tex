@@ -1,0 +1,14 @@
+\begin{algorithmic}[1]
+\State Initialize $m \in M$ and $w \in W$ to \textit{free}
+\While{$\exists$ \textit{free} man $m$ who has a woman $w$ to propose to}
+    \State $w \gets$ first woman on $m$'s list to whom $m$ has not yet proposed
+    \If{$\exists$ some pair $(m', w)$}
+        \If{$w$ prefers $m$ to $m'$}
+            \State $m' \gets$ \textit{free}
+            \State $(m, w) \gets$ \textit{engaged}
+        \EndIf
+    \Else
+        \State $(m, w) \gets$ \textit{engaged}
+    \EndIf
+\EndWhile
+\end{algorithmic}
