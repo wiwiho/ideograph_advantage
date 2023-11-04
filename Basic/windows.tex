@@ -1,0 +1,12 @@
+\begin{enumerate}
+    \item Open Sublime Text
+    \item \texttt{Alt+Shift+2}, \texttt{Ctrl+K}, \texttt{Ctrl+Shift+Up}
+    \item Create \texttt{input.txt} and \texttt{output.txt}
+    \item \texttt{Preferences -> Settings -> } 左邊最下面複製到右邊，把 Vintage 刪掉
+    \item \texttt{Tools -> Build System -> New Build System}
+\begin{lstlisting}
+g++ $file -o $file_base_name -std=c++17 -g -O2 -Wall -Wextra -Wshadow -Dzisk && $file_base_name.exe < input.txt > output.txt
+\end{lstlisting}
+    Save at \texttt{AppData/Roaming/Sublime Text 3/Packages/User/test}
+    \texttt{Tools -> Build System -> test}
+\end{enumerate}
