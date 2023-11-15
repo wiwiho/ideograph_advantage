@@ -30,8 +30,8 @@ struct Dinic { // 1-base
     int sum = 0;
     for (int i = 1; i <= n - 2; ++i)
       if (cnt[i] > 0)
-        add_edge(n - 1, i, cnt[i]), sum += cnt[i];
-      else if (cnt[i] < 0) add_edge(i, n, -cnt[i]);
+        add_edge(n - 1, i, 0, cnt[i]), sum += cnt[i];
+      else if (cnt[i] < 0) add_edge(i, n, 0,-cnt[i]);
     if (sum != maxflow(n - 1, n)) sum = -1;
     for (int i = 1; i <= n - 2; ++i)
       if (cnt[i] > 0)
@@ -41,13 +41,18 @@ struct Dinic { // 1-base
     return sum != -1;
   }
   int boundedflow(int _s, int _t) {
-    add_edge(_t, _s, inf);
+    add_edge(_t, _s, 0, inf);
     if (!feasible()) return -1; // infeasible flow
     int x = g[_t].back().flow;
     g[_t].pop_back(), g[_s].pop_back();
-
+    /* Minimum feasible flow */
     int y = maxflow(_t, _s);
     return x-y;
+
+    /* Maximum feasible flow
+    int y = maxflow(_s, _t);
+    return x+y;
+    */
   }
 };
 
