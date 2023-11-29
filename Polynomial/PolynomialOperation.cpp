@@ -21,16 +21,18 @@ struct Poly : vector<ll> { // coefficients in [0, P)
   Poly Mul(const Poly &rhs) const {
     int m = 1;
     while (m < n() + rhs.n() - 1) m <<= 1;
+    assert(m <= MAXN);
     Poly X(*this, m), Y(rhs, m);
     ntt(X, m), ntt(Y, m);
     fi(0, m) X[i] = X[i] * Y[i] % P;
     ntt(X, m, true);
     return X.isz(n() + rhs.n() - 1);
   }
-  Poly Inv() const { // (*this)[0] != 0, 1e5/95ms
+  Poly Inv() const { // (*this)[0] != 0, 1e5/95ms, 2*sz<=MAXN
     if (n() == 1) return {ntt.minv((*this)[0])};
     int m = 1;
     while (m < n() * 2) m <<= 1;
+    assert(m <= MAXN);
     Poly Xi = Poly(*this, (n() + 1) / 2).Inv().isz(m);
     Poly Y(*this, m);
     ntt(Xi, m), ntt(Y, m);
@@ -41,7 +43,7 @@ struct Poly : vector<ll> { // coefficients in [0, P)
     ntt(Xi, m, true);
     return Xi.isz(n());
   }
-  Poly& shift_inplace(const ll &c) { //to be tested
+  Poly& shift_inplace(const ll &c) { // 2 * sz <= MAXN
     int n = this->n();
     vector<ll> fc(n), ifc(n);
     fc[0] = ifc[0] = 1;
@@ -58,10 +60,27 @@ struct Poly : vector<ll> { // coefficients in [0, P)
     return *this;
   }
   Poly shift(const ll &c) const { return Poly(*this).shift_inplace(c); }
-  Poly Sqrt() const { // Jacobi((*this)[0], P) = 1, 1e5/235ms
+  Poly _Sqrt() const { // Jacobi((*this)[0], P) = 1
     if (n() == 1) return {QuadraticResidue((*this)[0], P)};
-    Poly X = Poly(*this, (n() + 1) / 2).Sqrt().isz(n());
+    Poly X = Poly(*this, (n() + 1) / 2)._Sqrt().isz(n());
     return X.iadd(Mul(X.Inv()).isz(n())).imul(P / 2 + 1);
+  }
+  Poly Sqrt() const { // 2 * sz <= MAXN
+    Poly a;
+    bool has = 0;
+    for(int i = 0; i < n(); i++){
+      if((*this)[i]) has = 1;
+      if(has) a.push_back((*this)[i]);
+    }
+    if(!has) return *this;
+    if( (n() + a.n()) % 2 || Jacobi(a[0], P) != 1) {
+      return Poly();
+    }
+    a=a.isz((n() + a.n()) / 2)._Sqrt();
+    int sz = a.n();
+    a.isz(n());
+    rotate(a.begin(), a.begin() + sz, a.end());
+    return a;
   }
   pair<Poly, Poly> DivMod(const Poly &rhs) const { // (rhs.)back() != 0
     if (n() < rhs.n()) return {{0}, *this};
@@ -118,10 +137,10 @@ struct Poly : vector<ll> { // coefficients in [0, P)
     for (int i = m - 1; i > 0; --i) down[i] = down[i * 2].Mul(up[i * 2 + 1]).iadd(down[i * 2 + 1].Mul(up[i * 2]));
     return down[1];
   }
-  Poly Ln() const { // (*this)[0] == 1, 1e5/170ms
+  Poly Ln() const { // (*this)[0] == 1, 2*sz<=MAXN
     return Dx().Mul(Inv()).Sx().isz(n());
   }
-  Poly Exp() const { // (*this)[0] == 0, 1e5/360ms
+  Poly Exp() const { // (*this)[0] == 0,2*sz<=MAXN
     if (n() == 1) return {1};
     Poly X = Poly(*this, (n() + 1) / 2).Exp().isz(n());
     Poly Y = X.Ln(); Y[0] = P - 1;
@@ -129,7 +148,7 @@ struct Poly : vector<ll> { // coefficients in [0, P)
     return X.Mul(Y).isz(n());
   }
   // M := P(P - 1). If k >= M, k := k % M + M.
-  Poly Pow(ll k) const {
+  Poly Pow(ll k) const { // 2*sz<=MAXN
     int nz = 0;
     while (nz < n() && !(*this)[nz]) ++nz;
     if (nz * min(k, (ll)n()) >= n()) return Poly(n());
@@ -154,7 +173,6 @@ struct Poly : vector<ll> { // coefficients in [0, P)
   }
 };
 #undef fi
-using Poly_t = Poly<131072 * 2, 998244353, 3>;
+using Poly_t = Poly<1 << 20, 998244353, 3>;
 template<> decltype(Poly_t::ntt) Poly_t::ntt = {};
-
 
