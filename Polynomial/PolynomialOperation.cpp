@@ -47,7 +47,7 @@ struct Poly : vector<ll> { // coefficients in [0, P)
     fc[0] = ifc[0] = 1;
     for (int i = 1; i < n; i++){
       fc[i] = fc[i-1] * i % P;
-      ifc[i] = minv(fc[i]);
+      ifc[i] = ntt.minv(fc[i]);
     }
     for (int i = 0; i < n; i++) (*this)[i] = (*this)[i] * fc[i] % P;
     Poly g(n);
