@@ -2,6 +2,7 @@
 //7*17*(2^23)+1, 998244353, 3
 //1255*(2^20)+1, 1315962881, 3
 //51*(2^25)+1, 1711276033, 29
+// only works when sz(A) + sz(B) - 1 <= MAXN
 template<int MAXN, ll P, ll RT> //MAXN must be 2^k
 struct NTT {
 	ll w[MAXN];
