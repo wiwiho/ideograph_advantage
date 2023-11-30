@@ -5,7 +5,7 @@ using namespace std;
 
 #define io ios_base::sync_with_stdio(0);cin.tie(0);cerr.tie(0)
 #define iter(v) v.begin(),v.end()
-#define SZ(v) (int)v.size()
+#define SZ(v) int(v.size())
 #define pb emplace_back
 #define ff first
 #define ss second
@@ -26,7 +26,8 @@ template<class T> void pary(T l, T r){
 #define debug(...) void()
 #define pary(...) void()
 #endif
-  template<class A, class B>
+
+template<class A, class B>
 ostream& operator<<(ostream& o, pair<A,B> p)
 { return o << '(' << p.ff << ',' << p.ss << ')'; }
 
