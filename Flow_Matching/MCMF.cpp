@@ -5,6 +5,7 @@ struct MCMF { // 0-base
 	vector <edge> G[maxn];
 	bitset <maxn> inq;
 	ll dis[maxn], up[maxn], s, t, mx, n;
+	//mx: maximum amount of flow
 	bool BellmanFord(ll &flow, ll &cost) {
 		fill(dis, dis + n, inf);
 		queue<ll> q;

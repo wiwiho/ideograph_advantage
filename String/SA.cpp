@@ -1,5 +1,6 @@
 struct SuffixArray { //tested
 	vector<int> sa, lcp, rank; //lcp[i] is lcp of sa[i] and sa[i-1]
+	//sa[0] = s.size();
 	SuffixArray(string& s, int lim=256) { // or basic_string<int>
 		int n = s.size() + 1, k = 0, a, b;
 		vector<int> x(n, 0), y(n), ws(max(n, lim));
