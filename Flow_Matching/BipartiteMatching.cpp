@@ -1,4 +1,4 @@
-//min vertex cover: take unmatched vertex in L and find alternating tree,
+//min vertex cover: take all unmatched vertices in L and find alternating tree,
 //ans is not reached in L + reached in R
 // O(VE)
 int n; //1-base, max matching
