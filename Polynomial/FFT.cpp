@@ -1,3 +1,5 @@
+// Errichto: FFT for double works when the result < 1e15, and < 1e18 with long double
+
 using val_t = complex<double>;
 template<int MAXN>
 struct FFT {
