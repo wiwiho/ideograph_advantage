@@ -3,7 +3,7 @@
 template<int MAXN, ll P, ll RT> // MAXN = 2^k
 struct Poly : vector<ll> { // coefficients in [0, P)
   using vector<ll>::vector;
-  static NTT<MAXN, P, RT> ntt;
+  static inline NTT<MAXN, P, RT> ntt;
   int n() const { return (int)size(); } // n() >= 1
   Poly(const Poly &p, int m) : vector<ll>(m) {
     copy_n(p.data(), min(p.n(), m), data());
@@ -174,5 +174,5 @@ struct Poly : vector<ll> { // coefficients in [0, P)
 };
 #undef fi
 using Poly_t = Poly<1 << 20, 998244353, 3>;
-template<> decltype(Poly_t::ntt) Poly_t::ntt = {};
+// template<> decltype(Poly_t::ntt) Poly_t::ntt = {};
 
