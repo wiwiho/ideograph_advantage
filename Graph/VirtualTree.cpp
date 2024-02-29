@@ -1,10 +1,12 @@
 // copy from 8BQube
 vector<int> vG[N];
 int top, st[N];
+int vrt = -1;
 
 void insert(int u) {
-	if (top == -1) return st[++top] = u, void();
+	if (top == -1) return st[++top] = vrt = u, void();
 	int p = LCA(st[top], u);
+    if(dep[vrt] > dep[p]) vrt = p;
 	if (p == st[top]) return st[++top] = u, void();
 	while (top >= 1 && dep[st[top - 1]] >= dep[p])
 		vG[st[top - 1]].pb(st[top]), --top;
@@ -25,5 +27,5 @@ void solve(vector<int> &v) {
 	for (int i : v) insert(i);
 	while (top > 0) vG[st[top - 1]].pb(st[top]), --top;
 	// do something
-	reset(v[0]);
+	reset(vrt);
 }
