@@ -1,67 +1,36 @@
-struct PAM { // 1-base
-    int sz, tot, last, n;
-    // make a new node with len = l.
-    int node(int l) {  
-        sz++;
-        fill(ch[sz].begin(), ch[sz].end(), 0);
-        len[sz] = l;
-        fail[sz] = 0;
-        cnt[sz] = 0;
-        dep[sz] = 0;
-        return sz;
+struct PalindromicTree {
+  struct node {
+    int nxt[26], fail, len; // num = depth of fail link
+    int cnt, num; // cnt = occur, num = #pal_suffix of this node
+    node(int l = 0) : nxt{},fail(0),len(l),cnt(0),num(0) {}
+  };
+  vector<node> st; vector<int> s; int last, n;
+  void init() {
+    st.clear(); s.clear(); last = 1; n = 0;
+    st.pb(0); st.pb(-1);
+    st[0].fail = 1; s.pb(-1);
+  }
+  int getFail(int x) {
+    while (s[n - st[x].len - 1] != s[n]) x = st[x].fail;
+    return x;
+  }
+  void add(int c) {
+    s.pb(c -= 'a'); ++n;
+    int cur = getFail(last);
+    if (!st[cur].nxt[c]) {
+      int now = SZ(st);
+      st.pb(st[cur].len + 2);
+      st[now].fail = st[getFail(st[cur].fail)].nxt[c];
+      st[cur].nxt[c] = now;
+      st[now].num = st[st[now].fail].num + 1;
     }
-    // initialize
-    void clear() { 
-        sz = -1;
-        last = 0;
-        s[tot = 0] = '$';
-        node(0);
-        node(-1);
-        fail[0] = 1;
+    last = st[cur].nxt[c]; ++st[last].cnt;
+  }
+  void dpcnt() {
+    for(int i = SZ(st) - 1; i >= 0; i--){
+      auto nd = st[i];
+      st[nd.fail].cnt += nd.cnt;
     }
-
-    // find the maximum palidrome suffix
-    int getfail(int x) {
-        while (s[tot - len[x] - 1] != s[tot]) x = fail[x];
-        return x;
-    }
-
-    vector<int> len, fail, cnt, dep, dif, slink;
-    vector<vector<int>> ch;
-    vector<char> s;
-    vector<mint> dp, g;
-
-    PAM(int N) : n(N+5), len(n), fail(n), cnt(n), dep(n), 
-        dif(n), slink(n), ch(n, vector<int>(26)), s(n),
-        dp(n), g(n) {
-        clear();
-        dp[0] = 1;
-    }
-
-    // make the automaton
-    void insert(char c) {
-        s[++tot] = c;
-        int now = getfail(last);
-        if (!ch[now][c - 'a']) {
-            int x = node(len[now] + 2);
-            fail[x] = ch[getfail(fail[now])][c - 'a'];
-            dep[x] = dep[fail[x]] + 1;
-            ch[now][c - 'a'] = x;
-            dif[x] = len[x] - len[fail[x]];
-            if (dif[x] == dif[fail[x]])
-                slink[x] = slink[fail[x]];
-            else
-                slink[x] = fail[x];
-        }
-        last = ch[now][c - 'a'];
-        cnt[last]++;
-
-        for(int x = last; x > 1; x = slink[x]){
-            g[x] = dp[tot - len[slink[x]] - dif[x]];
-            if(dif[x] == dif[fail[x]]) 
-                // change below
-                g[x] += g[fail[x]];
-            if(tot % 2 == 0)  dp[tot] += g[x];
-        }
-    }
+  }
+  int size() { return (int)st.size() - 2; }
 };

@@ -1,45 +1,47 @@
-const int maxn = 300005, maxc = 26;
-struct AC_Automaton { //1-base
-	int nx[maxn][maxc], fl[maxn], cnt[maxn], pri[maxn], tot;
-	//pri: bfs order of trie (0-base)
-	int newnode() {
-		tot++;
-		fill(nx[tot], nx[tot] + maxc, -1);
-		return tot;
-	}
-	void init() { tot = 0, newnode(); }
-	int input(string &s) { // return the end_node of string
-		int X = 1;
-		for (char c : s) {
-			if (!~nx[X][c - 'a']) nx[X][c - 'a'] = newnode();
-			X = nx[X][c - 'a'];
-		}
-		return X;
-	}
-	void make_fl() { //fail link
-		queue<int> q;
-		q.push(1), fl[1] = 0;
-		for (int t = 0; !q.empty();) {
-			int R = q.front();
-			q.pop(), pri[t++] = R;
-			for (int i = 0; i < maxc; ++i)
-				if (~nx[R][i]) {
-					int X = nx[R][i], Z = fl[R];
-					for (; Z && !~nx[Z][i];) Z = fl[Z];
-					fl[X] = Z ? nx[Z][i] : 1, q.push(X);
-				}
-		}
-	}
-	void get_v(string &s) {
-		//number of times prefix appears in strings
-		int X = 1;
-		fill(cnt, cnt + tot+1, 0);
-		for (char c : s) {
-			while (X && !~nx[X][c - 'a']) X = fl[X];
-			X = X ? nx[X][c - 'a'] : 1, ++cnt[X];
-		}
-		for (int i = tot-1; i > 0; --i)
-			cnt[fl[pri[i]]] += cnt[pri[i]];
-	}
-} ac;
-
+const int SIGMA = 26;
+struct AC_Automaton {
+  // child: trie, next: automaton
+  vector<vector<int>> child, next;
+  vector<int> fail, cnt, ord;
+  int total = 0;
+  int newnode() {
+    return total++;
+  }
+  void init(int len) {  // len >= 1 + total len
+    child.assign(len, vector<int>(26, -1));
+    next.assign(len, vector<int>(26, -1));
+    fail.assign(len, -1); cnt.assign(len, 0);
+    ord.clear();
+    newnode(); 
+  }
+  int input(string &s) {
+    int cur = 0;
+    for (char c : s) {
+      if (child[cur][c - 'A'] == -1)
+        child[cur][c - 'A'] = newnode();
+      cur = child[cur][c - 'A'];
+    }
+    return cur; // return the end node of string
+  }
+  void make_fl() {
+    queue<int> q;
+    q.push(0), fail[0] = -1;
+    while(!q.empty()) {
+      int R = q.front();
+      q.pop(); ord.pb(R);
+      for (int i = 0; i < SIGMA; i++)
+        if (child[R][i] != -1) {
+          int X = next[R][i] = child[R][i], Z = fail[R];
+          while (Z != -1 && child[Z][i] == -1) 
+            Z = fail[Z];
+          fail[X] = Z != -1 ? child[Z][i] : 0;
+          q.push(X);
+        }
+        else next[R][i] = R ? next[fail[R]][i] : 0;
+    }
+  }
+  void solve() {
+    for (int i : ord | views::reverse)
+      cnt[fail[i]] += cnt[i];
+  }
+}; 

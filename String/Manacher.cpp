@@ -1,13 +1,17 @@
-vector<int> manacher(string s) {
-	int n = s.size();
-	vector<int> v(n);
-	int pnt = -1, len = 1;
-	for (int i = 0;i < n;i++) {
-		int cor = 2 * pnt - i;
-		if (cor >= 0) v[i] = min(v[cor], cor - pnt + len);
-		while (i+v[i] < n && i-v[i] >= 0 && s[i+v[i]] == s[i-v[i]]) v[i]++;
-		if (i + v[i] >= pnt + len) pnt = i, len = v[i];	
-	}
-	for (int i = 0;i < n;i++) v[i] = 2 * v[i] - 1;
-	return v;	
+/* center i: radius z[i * 2 + 1] / 2
+   center i, i + 1: radius z[i * 2 + 2] / 2
+   both aba, abba have radius 2 */
+vector<int> manacher(const string &tmp){ // 0-based
+  string s = "%";
+  int l = 0, r = 0;
+  for(char c : tmp) s += c, s += '%';
+  vector<int> z(SZ(s));
+  for(int i = 0; i < SZ(s); i++){
+    z[i] = r > i ? min(z[2 * l - i], r - i) : 1;
+    while(i - z[i] >= 0 && i + z[i] < SZ(s) 
+           && s[i + z[i]] == s[i - z[i]]) 
+      ++z[i];
+    if(z[i] + i > r) r = z[i] + i, l = i;
+  }
+  return z;
 }
