@@ -13,6 +13,7 @@
 \usepackage{graphicx}
 \usepackage{tikz}
 \usepackage{algpseudocode}
+\usepackage[shortlabels]{enumitem}
 \setCJKmainfont{Noto Serif CJK TC}
 \setmonofont{Consolas}
 
@@ -35,6 +36,9 @@ morekeywords={*}
     \end{tikzpicture}
 \end{center}
 }
+
+\setlist[enumerate]{itemsep=0pt, parsep=0pt, topsep=0pt, leftmargin=10pt}
+\setlist[itemize]{itemsep=0pt, parsep=0pt, topsep=0pt, leftmargin=10pt}
 
 \begin{document}
 
@@ -119,8 +123,8 @@ morekeywords={*}
 \subsection{Gomory Hu}
 \lstinputlisting{Flow_Matching/GomoryHu.cpp}
 
-\subsection{ISAP Algorithm}
-\lstinputlisting{Flow_Matching/isap.cpp}
+%\subsection{ISAP Algorithm}
+%\lstinputlisting{Flow_Matching/isap.cpp}
 
 \subsection{Stoer Wagner Algorithm}
 \lstinputlisting{Flow_Matching/StoerWagner.cpp}
@@ -136,6 +140,9 @@ morekeywords={*}
 
 \subsection{Stable Marriage}
 \input{Flow_Matching/StableMarriage.tex}
+
+\subsection{Flow Model}
+\input{Flow_Matching/Model.tex}
 
 \section{Geometry}
 
