@@ -9,12 +9,12 @@ vector<int> RREF(vector<vector<ll>> &mat){
     if(cnt == -1) continue;
     swap(mat[rk], mat[cnt]);
     ll lead = mat[rk][i];
-    for (int j = 0;j < M;j++) mat[rk][j] /= lead;
+    for (int j = 0;j < M;j++) mat[rk][j] = mat[rk][j] * modinv(lead) % mod;
     for (int j = 0;j < N;j++) {
       if(j == rk) continue;
       ll tmp = mat[j][i];
       for (int k = 0;k < M;k++) 
-        mat[j][k] -= mat[rk][k] * tmp;
+        mat[j][k] = (mat[j][k] - mat[rk][k] * tmp % mod + mod) % mod;
     }
     cols.pb(i);
     rk++;
@@ -47,8 +47,8 @@ struct LinearEquation{
       if (ispiv[i]) continue;
       vector<ll> h(M);
       h[i] = 1;
-      for (int j = 0;j < rk;j++) h[piv[j]] = -rref[j][i];
+      for (int j = 0;j < rk;j++) h[piv[j]] = rref[j][i] ? mod-rref[j][i] : 0;
       homo.pb(h);
     }
   }
-}
+};
