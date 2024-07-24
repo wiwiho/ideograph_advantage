@@ -1,5 +1,7 @@
 // from 8BQube
 ll floor_sum(ll n, ll m, ll a, ll b) {
+  assert(m);
+  if(m < 0) return -floor_sum(n, -m, a, b-m-1);
   ll ans = 0;
   if (a >= m)
     ans += (n - 1) * n * (a / m) / 2, a %= m;
