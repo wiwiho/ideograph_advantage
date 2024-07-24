@@ -1,6 +1,6 @@
-int ifloor(int a,int b){
+ll ifloor(ll a,ll b){
 	return a / b - (a % b && (a < 0) ^ (b < 0));
 }
-int iceil(int a,int b){
+ll iceil(ll a,ll b){
 	return a / b + (a % b && (a < 0) ^ (b > 0));
 }
