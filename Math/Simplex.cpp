@@ -1,20 +1,21 @@
-#pragma once
-
-typedef double T; // long double, Rational, double + mod<P>...
+// maximize c^T x 
+// subject to Ax <= b, x >= 0
+// and stores the solution;
+typedef long double T; // long double, Rational, double + mod<P>...
 typedef vector<T> vd;
 typedef vector<vd> vvd;
 
-const T eps = 1e-8, inf = 1/.0;
-#define MP make_pair
-#define ltj(X) if(s == -1 || MP(X[j],N[j]) < MP(X[s],N[s])) s=j
+const T eps = 1e-9, inf = 1/.0;
+#define ltj(X) if(s == -1 || mp(X[j],N[j]) < mp(X[s],N[s])) s=j
+#define rep(i, l, n) for(int i = l; i < n; i++)
 
 struct LPSolver {
 	int m, n;
-	vi N, B;
+	vector<int> N, B;
 	vvd D;
 
 	LPSolver(const vvd& A, const vd& b, const vd& c) :
-		m(sz(b)), n(sz(c)), N(n+1), B(m), D(m+2, vd(n+2)) {
+		m(SZ(b)), n(SZ(c)), N(n+1), B(m), D(m+2, vd(n+2)) {
 			rep(i,0,m) rep(j,0,n) D[i][j] = A[i][j];
 			rep(i,0,m) { B[i] = n+i; D[i][n] = -1; D[i][n+1] = b[i];}
 			rep(j,0,n) { N[j] = j; D[m][j] = -c[j]; }
@@ -43,8 +44,8 @@ struct LPSolver {
 			int r = -1;
 			rep(i,0,m) {
 				if (D[i][s] <= eps) continue;
-				if (r == -1 || MP(D[i][n+1] / D[i][s], B[i])
-						< MP(D[r][n+1] / D[r][s], B[r])) r = i;
+				if (r == -1 || mp(D[i][n+1] / D[i][s], B[i])
+						< mp(D[r][n+1] / D[r][s], B[r])) r = i;
 			}
 			if (r == -1) return false;
 			pivot(r, s);
