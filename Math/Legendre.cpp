@@ -23,9 +23,7 @@ int Jacobi(int a, int m) {
 // doesn't work with long long
 int QuadraticResidue(int a, int p) {
 	if (p == 2) return a & 1;
-	const int jc = Jacobi(a, p);
-	if (jc == 0) return 0;
-	if (jc == -1) return -1;
+    if(int jc = Jacobi(a, p); jc <= 0) return jc;
 	int b, d;
 	for (; ; ) {
 		b = rand() % p;
