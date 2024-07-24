@@ -1,60 +1,43 @@
-struct Edge { int a, b; ll w; };
-struct Node { /// lazy skew heap node
-  Edge key;
-  Node *l, *r;
-  ll delta;
-  void prop() {
-    key.w += delta;
-    if (l) l->delta += delta;
-    if (r) r->delta += delta;
-    delta = 0;
+struct E { int s, t; ll w; }; // 0-base
+struct PQ {
+  struct P {
+    ll v; int i;
+    bool operator>(const P &b) const { return v > b.v; }
+  };
+  priority_queue<P, vector<P>, greater<>> pq; ll tag; // min heap
+  void push(P p) { p.v -= tag; pq.emplace(p); }
+  P top() { P p = pq.top(); p.v += tag; return p; }
+  void join(PQ &b) {
+    if (pq.size() < b.pq.size())
+      swap(pq, b.pq), swap(tag, b.tag);
+    while (!b.pq.empty()) push(b.top()), b.pq.pop();
   }
-  Edge top() { prop(); return key; }
-};
-Node *merge(Node *a, Node *b) {
-  if (!a || !b) return a ?: b;
-  a->prop(), b->prop();
-  if (a->key.w > b->key.w) swap(a, b);
-  swap(a->l, (a->r = merge(b, a->r)));
-  return a;
-}
-void pop(Node*& a) { a->prop(); a = merge(a->l, a->r); }
-
-pair<ll, vi> dmst(int n, int r, vector<Edge>& g) {
-  RollbackUF uf(n); // need to implement this
-  vector<Node*> heap(n);
-  for (Edge e : g) heap[e.b] = merge(heap[e.b], new Node{e});
-  ll res = 0;
-  vi seen(n, -1), path(n), par(n);
-  seen[r] = r;
-  vector<Edge> Q(n), in(n, {-1,-1}), comp;
-  deque<tuple<int, int, vector<Edge>>> cycs;
-  rep(s,0,n) {
-    int u = s, qi = 0, w;
-    while (seen[u] < 0) {
-      if (!heap[u]) return {-1,{}};
-      Edge e = heap[u]->top();
-      heap[u]->delta -= e.w, pop(heap[u]);
-      Q[qi] = e, path[qi++] = u, seen[u] = s;
-      res += e.w, u = uf.find(e.a);
-      if (seen[u] == s) { /// found cycle, contract
-        Node* cyc = 0;
-        int end = qi, time = uf.time();
-        do cyc = merge(cyc, heap[w = path[--qi]]);
-        while (uf.join(u, w));
-        u = uf.find(u), heap[u] = cyc, seen[u] = -1;
-        cycs.push_front({u, time, {&Q[qi], &Q[end]}});
-      }
+}; // O(E log^2 V), use leftist tree for O(E log V)
+vector<int> dmst(const vector<E> &e, int n, int root) {
+  vector<PQ> h(n * 2);
+  for (int i = 0; i < int(e.size()); ++i)
+    h[e[i].t].push({e[i].w, i});
+  vector<int> a(n * 2); iota(iter(a), 0);
+  vector<int> v(n * 2, -1), pa(n * 2, -1), r(n * 2);
+  auto o = [&](auto Y, int x) -> int {
+    return x==a[x] ? x : a[x] = Y(Y, a[x]); };
+  auto S = [&](int i) { return o(o, e[i].s); };
+  int pc = v[root] = n;
+  for (int i = 0; i < n; ++i) if (v[i] == -1)
+    for (int p = i; v[p]<0 || v[p]==i; p = S(r[p])) {
+      if (v[p] == i)
+        for (int q = pc++; p != q; p = S(r[p])) {
+          h[p].tag -= h[p].top().v; h[q].join(h[p]);
+          pa[p] = a[p] = q;
+        }
+      while (S(h[p].top().i) == p) h[p].pq.pop();
+      v[p] = i; r[p] = h[p].top().i;
     }
-    rep(i,0,qi) in[uf.find(Q[i].b)] = Q[i];
+  vector<int> ans;
+  for (int i = pc - 1; i >= 0; i--) if (v[i] != n) {
+    for (int f = e[r[i]].t; f!=-1 && v[f]!=n; f = pa[f])
+      v[f] = n;
+    ans.push_back(r[i]);
   }
-
-  for (auto& [u,t,comp] : cycs) { // restore sol (optional)
-    uf.rollback(t);
-    Edge inEdge = in[u];
-    for (auto& e : comp) in[uf.find(e.b)] = e;
-    in[uf.find(inEdge.b)] = inEdge;
-  }
-  rep(i,0,n) par[i] = in[i].a;
-  return {res, par};
+  return ans; // default minimize, returns edgeid array
 }
