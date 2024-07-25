@@ -1,43 +1,40 @@
-struct Heavy_light_Decomposition { // 1-base
-	int n, up[maxn], dep[maxn], to[maxn], siz[maxn], pa[maxn];
-	int C, ti[maxn], ord[maxn], wdown[maxn], edge[maxn], et = 0;
-	vector<pii> G[maxn];
-	void init(int _n) {
-		n = _n, C = 0, et = 1;
-		for (int i = 1;i <= n;i++) 
-			G[i].clear(), to[i] = 0;
-	}
-	void add_edge(int a, int b, int w) {
-		G[a].push_back(pii(b, et)), G[b].push_back(pii(a, et));
-		edge[et++] = w;
-	}
-	void dfs(int u, int f, int d) {
-		siz[u] = 1, pa[u] = f, dep[u] = d;
-		for (auto &v: G[u]) 
-			if (v.ff != f) {
-				dfs(v.ff, u, d+1), siz[u] += siz[v];
-				if (siz[to[u]] < siz[v]) to[u] = v;
-			} 
-	}
-	void cut(int u, int link) {
-		ti[u] = C;
-		ord[C++] = u, up[u] = link;
-		if (!to[u]) return;
-		cut(to[u], link);
-		for (auto v:G[u]) {
-			if (v.ff != pa[u] && v.ff != to[u]) cut(v.ff, v.ff);
-		}
-	}
-	void build() { dfs(1, 1, 1), cut(1, 1); }
-	int query(int a, int b) {
-		int ta = up[a], tb = up[b], re = 0;
-		while (ta != tb)
-			if (dep[ta] < dep[tb])
-				/*query*/, tb = up[b = pa[tb]];
-			else /*query*/, ta = up[a = pa[ta]];
-		if (a == b) return re;
-		if (ti[a] > ti[b]) swap(a, b);
-		/*query*/
-		return re;
-	}	
+struct HLD{ // 1-based
+  int n, ts = 0; // ord is 1-based
+  vector<vector<int>> g;
+  vector<int> par, top, down, ord, dpt, sub;
+  explicit HLD(int _n): n(_n), g(n + 1), 
+  par(n + 1), top(n + 1), down(n + 1), 
+  ord(n + 1), dpt(n + 1), sub(n + 1) {}
+  void add_edge(int u, int v){ g[u].pb(v); g[v].pb(u); }
+  void dfs(int now, int p){
+    par[now] = p; sub[now] = 1;
+    for(int i : g[now]){
+      if(i == p) continue;
+      dpt[i] = dpt[now] + 1;
+      dfs(i, now);
+      sub[now] += sub[i];
+      if(sub[i] > sub[down[now]]) down[now] = i;
+    }
+  }
+  void cut(int now, int t){
+    top[now] = t; ord[now] = ++ts;
+    if(!down[now]) return;
+    cut(down[now], t);
+    for(int i : g[now]){
+      if(i != par[now] && i != down[now])
+        cut(i, i);
+    }
+  }
+  void build(){ dfs(1, 1), cut(1, 1); }
+  int query(int a, int b){
+    int ta = top[a], tb = top[b];
+    while(ta != tb){
+      if(dpt[ta] > dpt[tb]) swap(ta, tb), swap(a, b);
+      // ord[tb], ord[b]
+      tb = top[b = par[tb]];
+    }
+    if(ord[a] > ord[b]) swap(a, b);
+    // ord[a], ord[b]
+    return a; // lca
+  }
 };
