@@ -35,18 +35,18 @@ ll BostanMori(vector<ll> P, vector<ll> Q, long long k) {
   return M[0][0] * ntt.minv(M[1][0]) % mod;
 }
 ll LinearRecursion(vector<ll> a, vector<ll> c, ll k) { // a_n = \sum_{j=1}^{d} c_j a_(n-j)
-    int d = siz(a);
-    int sz = (2 * d + 1 == 1 ? 2 : (1 << (__lg(2 * d) + 1)));
+  int d = siz(a);
+  int sz = (2 * d + 1 == 1 ? 2 : (1 << (__lg(2 * d) + 1)));
 
-    c[0] = mod - 1;
-    for(ll &i : c) i = i ? mod - i : 0;
-    
-    auto A = a; A.resize(sz);
-    auto C = c; C.resize(sz);
-    ntt(A, sz, false), ntt(C, sz, false);
-    for(int i = 0; i < sz; i++) A[i] = A[i] * C[i] % mod;
-    ntt(A, sz, true);
-    A.resize(d);
+  c[0] = mod - 1;
+  for(ll &i : c) i = i ? mod - i : 0;
+  
+  auto A = a; A.resize(sz);
+  auto C = c; C.resize(sz);
+  ntt(A, sz, false), ntt(C, sz, false);
+  for(int i = 0; i < sz; i++) A[i] = A[i] * C[i] % mod;
+  ntt(A, sz, true);
+  A.resize(d);
 
-    return BostanMori(A, c, k);
+  return BostanMori(A, c, k);
 }
