@@ -1,4 +1,5 @@
-NTT<262144, 998244353, 3> ntt;
+const ll mod = 998244353;
+NTT<262144, mod, 3> ntt;
 // Finds the k-th coefficient of P / Q in O(d log d log k)
 // size of NTT has to > 2 * d
 ll BostanMori(vector<ll> P, vector<ll> Q, long long k) {

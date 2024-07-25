@@ -157,20 +157,6 @@ struct Poly : vector<ll> { // coefficients in [0, P)
     const ll c = ntt.mpow(X[0], k % (P - 1));
     return X.Ln().imul(k % P).Exp().imul(c).irev().isz(n()).irev();
   }
-  static ll LinearRecursion(const vector<ll> &a, const vector<ll> &coef, ll n) { // a_n = \sum c_j a_(n-j)
-    const int k = (int)a.size();
-    assert((int)coef.size() == k + 1);
-    Poly C(k + 1), W(Poly {1}, k), M = {0, 1};
-    fi(1, k + 1) C[k - i] = coef[i] ? P - coef[i] : 0;
-    C[k] = 1;
-    while (n) {
-      if (n % 2) W = W.Mul(M).DivMod(C).second;
-      n /= 2, M = M.Mul(M).DivMod(C).second;
-    }
-    ll ret = 0;
-    fi(0, k) ret = (ret + W[i] * a[i]) % P;
-    return ret;
-  }
 };
 #undef fi
 using Poly_t = Poly<1 << 20, 998244353, 3>;
