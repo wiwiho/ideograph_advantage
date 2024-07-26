@@ -157,6 +157,76 @@ struct Poly : vector<ll> { // coefficients in [0, P)
     const ll c = ntt.mpow(X[0], k % (P - 1));
     return X.Ln().imul(k % P).Exp().imul(c).irev().isz(n()).irev();
   }
+  // sum_j w_j [x^j] f(x^i) for i \in [0, m]
+	Poly power_projection(Poly wt, int m) {	 // 4*sz <= MAXN!
+		assert(n() == wt.n());
+		if (!n()) {
+			return Poly(m + 1, 0);
+		}
+		if (V[0] != 0) {
+			ll c = V[0];
+			V[0] = 0;
+			Poly A = V.power_projection(wt, m);
+			fi(0, m + 1) A[i] = A[i] * fac[i] % P;	// factorial
+			Poly B(m + 1);
+			ll pow = 1;
+			fi(0, m + 1) B[i] = pow * ifac[i] % P, pow = pow * c % P;  // inv. of fac
+			A = A.Mul(B).isz(m + 1);
+			fi(0, m + 1) A[i] = A[i] * fac[i] % P;
+			return A;
+		}
+
+		int n = 1;
+		while (n < V.n()) n *= 2;
+		isz(n), wt.isz(n).irev();
+		int k = 1;
+		Poly p(wt, 2 * n), q(V, 2 * n);
+    q.imul(P - 1);
+
+		while (n > 1) {
+			Poly r(2 * n * k);
+			fi(0, 2 * n * k) r[i] = (i % 2 == 0 ? q[i] : neg(q[i]));
+			Poly pq = p.Mul(r).isz(4 * n * k);
+      Poly qq = q.Mul(r).isz(4 * n * k);
+			fi(0, 2 * n * k) {
+				pq[2 * n * k + i] += p[i];
+				qq[2 * n * k + i] += q[i] + r[i];
+				pq[2 * n * k + i] %= P;
+				qq[2 * n * k + i] %= P; 
+			}
+			fill(p.begin(), p.end(), 0);
+      fill(q.begin(), q.end(), 0);
+			for(int j = 0; j < 2 * k; j++) fi(0, n / 2) {
+				p[n * j + i] = pq[(2 * n) * j + (2 * i + 1)];
+				q[n * j + i] = qq[(2 * n) * j + (2 * i + 0)];
+			}
+			n /= 2, k *= 2;
+		}
+		Poly ans(k);
+		fi(0, k) ans[i] = p[2 * i];
+		return ans.irev().isz(m + 1);
+	}
+  Poly FPSinv() {
+    const int n = V.n() - 1;
+    if (n == -1) return {};
+    assert(V[0] == 0);
+    if (n == 0) return V;
+    assert(V[1] != 0);
+    ll c = V[1], ic = minv(c);
+    imul(ic);
+    Poly wt(n + 1);
+    wt[n] = 1;
+
+    Poly A = V.power_projection(wt, n);
+    Poly g(n);
+    fi(1, n + 1) g[n - i] = n * A[i] % P * minv(i) % P;
+    g = g.Pow(neg(minv(n)));
+    g.insert(g.begin(), 0);
+
+    ll pow = 1;
+    fi(0, g.n()) g[i] = g[i] * pow % P, pow = pow * ic % P;
+    return g;
+  }
 };
 #undef fi
 using Poly_t = Poly<1 << 20, 998244353, 3>;
