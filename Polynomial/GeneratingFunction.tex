@@ -36,3 +36,10 @@ $a_0,a_1,\dots$ 的指數生成函數：
     \item $\hat C(x) = \hat A(x)^k$: $\sum\limits_{i_1+i_2+\dots+i_k=n} \binom{n}{i_1,i_2,\dots,i_k}a_ia_{i_2}\dots a_{i_k}$ 的指數生成函數
 	\item $\hat C(x) = \exp(A(x))$: 假設 $A(x)$ 是一個分量 (component) 的生成函數，那 $\hat C(x)$ 是將 $n$ 個有編號的東西分成若干個分量的指數生成函數
 \end{itemize}
+
+Lagrange's Inversion Formula
+
+如果 F 跟 G 互反，H 為任意 FPS，則
+
+\[ n [x^n] G(x) = [x^{-1}]\frac{1}{F(x)^{n}}\]
+\[ n [x^n] H(G(x)) = [x^{-1}] H'(x) \frac{1}{F(x)^{n}}\]
