@@ -193,7 +193,7 @@ struct Poly : vector<ll> {		  // coefficients in [0, P)
 			Poly r(2 * n * k);
 			fi(0, 2 * n * k) r[i] = (i % 2 == 0 ? q[i] : neg(q[i]));
 			Poly pq = p.Mul(r).isz(4 * n * k);
-            Poly qq = q.Mul(r).isz(4 * n * k);
+			Poly qq = q.Mul(r).isz(4 * n * k);
 			fi(0, 2 * n * k) {
 				pq[2 * n * k + i] += p[i];
 				qq[2 * n * k + i] += q[i] + r[i];
