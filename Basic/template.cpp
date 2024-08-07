@@ -1,9 +1,6 @@
-//Challenge: Accepted
-//#pragma GCC optimize("Ofast")
 #include <bits/stdc++.h>
 using namespace std;
 
-#define io ios_base::sync_with_stdio(0);cin.tie(0);cerr.tie(0)
 #define iter(v) v.begin(),v.end()
 #define SZ(v) int(v.size())
 #define pb emplace_back
@@ -32,5 +29,5 @@ ostream& operator<<(ostream& o, pair<A,B> p)
 { return o << '(' << p.ff << ',' << p.ss << ')'; }
 
 int main(){
-  io;
+  ios_base::sync_with_stdio(0); cin.tie(0);
 }
