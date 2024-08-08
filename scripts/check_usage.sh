@@ -7,10 +7,10 @@ fi
 
 check_file(){
     file=$1
-    if [[ "$file" = "./content.tex" ]]; then
+    if [[ "$file" = "./content.tex" ]] || [[ "$file" = "./main.tex" ]]; then
         return
     fi
-    cat main.tex | grep "${file:2}" > /dev/null
+    cat content.tex | grep "${file:2}" > /dev/null
     if [[ $? -ne 0 ]]; then
         echo "Warning: file $file is not in content.tex"
     fi
