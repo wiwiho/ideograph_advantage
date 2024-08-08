@@ -1,12 +1,13 @@
-\documentclass{article}
+\documentclass[a4paper,10pt,oneside]{article}
 
-\usepackage[top=1.5cm,bottom=0.5cm,left=0.5cm,right=0.5cm]{geometry}
+%\usepackage[top=1.5cm,bottom=0.5cm,left=0.5cm,right=0.5cm]{geometry}
 \usepackage{xeCJK}
 \usepackage{fontspec}
 \usepackage{listings}
 \usepackage{fancyhdr}
 \usepackage{changepage}
 \usepackage{color}
+\usepackage[x11names]{xcolor}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
@@ -16,8 +17,17 @@
 \usepackage[shortlabels]{enumitem}
 \usepackage{titlesec}
 \usepackage{multicol}
-\setCJKmainfont{Noto Serif CJK TC}
+
+\setCJKmainfont{Noto Sans CJK TC}
+\setmainfont[
+  Path=./fonts/Ubuntu/,
+  BoldFont=Ubuntu-Bold,
+  ItalicFont=Ubuntu-Italic,
+  BoldItalicFont=Ubuntu-BoldItalic,
+]{Ubuntu-Regular}
 \setmonofont{Consolas}
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt
 
 \lstset{
 language=C++,
@@ -26,7 +36,10 @@ tabsize=2,
 breaklines=true,
 breakatwhitespace=false,
 escapeinside={\%*}{*)},
-morekeywords={*}
+morekeywords={*},
+keywordstyle=\bfseries\color{Blue1},
+commentstyle=\itshape\color{Red4},
+stringstyle=\itshape\color{Green4},
 }
 
 \newcommand{\makegrid}{
@@ -41,6 +54,21 @@ morekeywords={*}
 
 \setlist[enumerate]{itemsep=0pt, parsep=0pt, topsep=0pt, leftmargin=10pt}
 \setlist[itemize]{itemsep=0pt, parsep=0pt, topsep=0pt, leftmargin=10pt}
+
+\topmargin=-1pt
+\headsep=5pt
+\textheight=780pt
+\footskip=0pt
+\voffset=-40pt
+\textwidth=545pt
+\marginparsep=0pt
+\marginparwidth=0pt
+\marginparpush=0pt
+\oddsidemargin=0pt
+\evensidemargin=0pt
+\hoffset=-42pt
+
+\setcounter{secnumdepth}{2}
 
 \titlespacing\section{0pt}{-2pt plus 0pt minus 2pt}{-1pt plus 0pt minus 2pt}
 \titlespacing\subsection{0pt}{-2pt plus 0pt minus 2pt}{-1pt plus 0pt minus 2pt}
@@ -62,9 +90,12 @@ morekeywords={*}
 \twocolumn
 
 \setlength{\columnseprule}{0pt}
+{
+\scriptsize
 \begin{multicols}{2}
 \tableofcontents
 \end{multicols}
+}
 \setlength{\columnseprule}{0.5pt}
 
 \section{Basic}
