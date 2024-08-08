@@ -1,0 +1,84 @@
+\subsubsection{Rotation Matrix}
+
+\[ \begin{pmatrix}
+    \cos \theta & -\sin \theta \\
+    \sin \theta & \cos \theta
+\end{pmatrix} \]
+
+\begin{itemize}
+    \item rotate $90^\circ$: $(x,y) \to (-y, x)$
+    \item rotate $-90^\circ$: $(x,y) \to (y, -x)$
+\end{itemize}
+
+\subsubsection{Triangles}
+Side lengths: $a,b,c$\\
+Semiperimeter: $p=\dfrac{a+b+c}{2}$\\
+Area: $A=\sqrt{p(p-a)(p-b)(p-c)}$\\
+Circumradius: $R=\dfrac{abc}{4A}$\\
+Inradius: $r=\dfrac{A}{p}$\\
+Length of median (divides triangle into two equal-area triangles): $m_a=\tfrac{1}{2}\sqrt{2b^2+2c^2-a^2}$\\
+Length of bisector (divides angles in two): $s_a=\sqrt{bc\left(1-\left(\dfrac{a}{b+c}\right)^2\right)}$\\
+Law of sines: $\dfrac{\sin\alpha}{a}=\dfrac{\sin\beta}{b}=\dfrac{\sin\gamma}{c}=\dfrac{1}{2R}$\\
+Law of cosines: $a^2=b^2+c^2-2bc\cos\alpha$\\
+Law of tangents: $\dfrac{a+b}{a-b}=\dfrac{\tan\dfrac{\alpha+\beta}{2}}{\tan\dfrac{\alpha-\beta}{2}}$\\
+%Incenter:\\
+%$P_1=(x_1,y_1),P_2=(x_2,y_2),P_3=(x_3,y_3)$\\
+%$s_1=\overline{P_2P_3}, s_2=\overline{P_1P_3}, s_3=\overline{P_1P_2}$ \\
+%$\dfrac{s_1P_1 + s_2P_2 + s_3P_3}{s_1+s_2+s_3}$\\
+%Circumcenter:\\
+%$P_0=(0,0),P_1=(x_1,y_1),P_2=(x_2,y_2)$\\
+%$x_c=\frac{1}{2} \times \dfrac{y_2(x_1^2+y_1^2)-y_1(x_2^2+y_2^2)}{-x_2y_1+x_1y_2}$\\
+%$y_c=\frac{1}{2} \times \dfrac{x_2(x_1^2+y_1^2)-x_1(x_2^2+y_2^2)}{-x_1y_2+x_2y_1}$\\
+%Check if $(x_0,y_0)$ is in the circumcircle:\\
+%\[\begin{vmatrix}
+%x_1-x_0 & y_1-y_0 & (x_1^2+y_1^2)-(x_0^2+y_0^2) \\
+%x_2-x_0 & y_2-y_0 & (x_2^2+y_2^2)-(x_0^2+y_0^2) \\
+%x_3-x_0 & y_3-y_0 & (x_3^2+y_3^2)-(x_0^2+y_0^2) \\
+%\end{vmatrix}\]
+%$0$: on edge, $>0$: inside, $<0$: outside\\
+
+\subsubsection{Quadrilaterals}
+With side lengths $a,b,c,d$, diagonals $e, f$, diagonals angle $\theta$, area $A$ and
+magic flux $F=b^2+d^2-a^2-c^2$:
+
+\[ 4A = 2ef \cdot \sin\theta = F\tan\theta = \sqrt{4e^2f^2-F^2} \]
+
+ For cyclic quadrilaterals the sum of opposite angles is $180^\circ$,
+$ef = ac + bd$, and $A = \sqrt{(p-a)(p-b)(p-c)(p-d)}$.
+
+\subsubsection{Spherical coordinates}
+%\begin{center}
+%\includegraphics[width=25mm]{sphericalCoordinates.pdf}
+%\end{center}
+\[\begin{array}{cc}
+x = r\sin\theta\cos\phi & r = \sqrt{x^2+y^2+z^2}\\
+y = r\sin\theta\sin\phi & \theta = \textrm{acos}(z/\sqrt{x^2+y^2+z^2})\\
+z = r\cos\theta & \phi = \textrm{atan2}(y,x)
+\end{array}\]
+
+\subsubsection{Green's Theorem}
+
+\[ \iint_D \left( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} \right) dxdy
+= \oint_{L^+} (Pdx + Qdy)\]
+
+\[ \text{Area} = \frac{1}{2} \oint_L x\ dy - y\ dx \]
+
+Circular sector:
+
+\begin{align*}
+    x &= x_0 + r\cos\theta \\
+    y &= y_0 + r\sin\theta \\
+    A &= r \int_\alpha^\beta (x_0 + \cos\theta)\cos\theta + (y_0 + \sin\theta)\sin\theta\ d\theta \\
+      &= r (r \theta + x_0 \sin\theta - y_0 \cos\theta) \rvert_\alpha^\beta
+\end{align*}
+
+\subsubsection{Point-Line Duality}
+
+\[ p=(a,b) \leftrightarrow p^*: y=ax-b \]
+
+\begin{itemize}
+    \item $p \in l \iff l^* \in p^*$
+    \item $p_1, p_2, p_3$ are collinear $\iff$ $p_1^*, p_2^*, p_3^*$ intersect at a point
+    \item $p$ lies above $l$ $\iff$ $l^*$ lies above $p^*$
+    \item lower convex hull $\leftrightarrow$ upper envelope
+\end{itemize}

@@ -51,9 +51,8 @@
     %\vspace{-1em}
     \begin{enumerate}
         %\itemsep-0.3em
-      \item For each $v \in V$ create a copy $v^\prime$, and connect $u^\prime \to v^\prime$ with weight $w(u, v)$.
-      \item Connect $v \to v^\prime$ with weight $2\mu(v)$, where $\mu(v)$ is the cost of the cheapest edge incident to $v$.
-      \item Find the minimum weight perfect matching on $G^\prime$.
+      \item Let $w'(u,v)=w(u,v)-\mu(u)-\mu(v)$, where $\mu(v)$ is the cost of the cheapest edge incident to $v$.
+      \item Find the minimum weight matching $M$ with $w'$. The answer is $\sum \mu(v) + w'(M)$.
     \end{enumerate}
     \item Project selection problem
     %\vspace{-1em}
