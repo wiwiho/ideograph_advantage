@@ -15,6 +15,6 @@ scripts/check_usage.sh
 printf "${BLUE}Check indentations$NC\n"
 scripts/check_indent.sh -b
 printf "${BLUE}Compile main.tex...$NC\n"
-texfot latexmk -xelatex main.tex
+texfot latexmk -xelatex main.tex --shell-escape
 printf "${BLUE}Done$NC\n"
 

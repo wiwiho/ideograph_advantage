@@ -74,6 +74,43 @@ stringstyle=\itshape\color{Green4},
 \titlespacing\subsection{0pt}{-2pt plus 0pt minus 2pt}{-1pt plus 0pt minus 2pt}
 \titlespacing\subsubsection{0pt}{-2pt plus 0pt minus 2pt}{-1pt plus 0pt minus 2pt}
 
+\ExplSyntaxOn
+\NewDocumentCommand{\captureshell}{som}
+ {
+  \sdaau_captureshell:Ne \l__sdaau_captureshell_out_tl { #3 }
+  \IfBooleanT { #1 }
+   {% we may need to stringify the result
+    \tl_set:Nx \l__sdaau_captureshell_out_tl
+     { \tl_to_str:N \l__sdaau_captureshell_out_tl }
+   }
+  \IfNoValueTF { #2 }
+   {
+    \tl_use:N \l__sdaau_captureshell_out_tl
+   }
+   {
+    \tl_set_eq:NN #2 \l__sdaau_captureshell_out_tl
+   }
+ }
+
+\tl_new:N \l__sdaau_captureshell_out_tl
+
+\cs_new_protected:Nn \sdaau_captureshell:Nn
+ {
+  \sys_get_shell:nnN { #2 } { } #1
+  \tl_trim_spaces:N #1 % remove leading and trailing spaces
+ }
+\cs_generate_variant:Nn \sdaau_captureshell:Nn { Ne }
+\ExplSyntaxOff
+
+\newcommand{\inputnote}[2]{
+    \subsection[#1]{#1}
+    \input{#2}
+}
+\newcommand{\inputcode}[2]{
+    \subsection[#1]{#1 \footnotesize{[\texttt{\captureshell{cpp #2 -dD -P -fpreprocessed | tr -d '[:space:]' | md5sum | cut -c-6}}]}}
+    \lstinputlisting{#2}
+}
+
 \begin{document}
 
 \setlength\parindent{0pt}
@@ -98,328 +135,6 @@ stringstyle=\itshape\color{Green4},
 }
 \setlength{\columnseprule}{0.5pt}
 
-\section{Basic}
-
-\subsection{Default Code}
-\lstinputlisting{Basic/template.cpp}
-
-\subsection{.vimrc}
-\lstinputlisting{Basic/vimrc}
-
-%\subsection{Windows Setup}
-%\input{Basic/windows.tex}
-
-%\subsection{Debug}
-%\input{Basic/debug.tex}
-
-\subsection{Fast IO}
-\lstinputlisting{Basic/fastio.cpp}
-
-\subsection{Random}
-\lstinputlisting{Basic/random.cpp}
-
-\subsection{Checker}
-\lstinputlisting{Basic/checker.sh}
-
-\subsection{PBDS Tree}
-\lstinputlisting{Basic/pbds.cpp}
-
-\subsection{Pragma}
-\lstinputlisting{Basic/pragma.cpp}
-
-\subsection{SVG Writer}
-\lstinputlisting{Basic/SVG.cpp}
-
-\section{Data Structure}
-
-\subsection{Heavy-Light Decomposition}
-\lstinputlisting{DataStructure/HLD.cpp}
-
-%\subsection{Li-Chao Tree}
-%\lstinputlisting{DataStructure/LiChao.cpp}
-
-\subsection{Link Cut Tree}
-\lstinputlisting{DataStructure/LinkCutTree.cpp}
-
-\subsection{Treap}
-\lstinputlisting{DataStructure/Treap.cpp}
-
-\subsection{KD Tree}
-\lstinputlisting{DataStructure/KDTree.cpp}
-
-\subsection{Leftist Tree}
-\lstinputlisting{DataStructure/LeftistTree.cpp}
-
-\subsection{Convex 1D/1D}
-\lstinputlisting{DataStructure/Convex1D1D.cpp}
-
-%\subsection{Dynamic Convex Hull}
-%\lstinputlisting{DataStructure/DynamicConvexHull.cpp}
-
-\section{Flow \& Matching}
-
-\subsection{Dinic}
-\lstinputlisting{Flow_Matching/Dinic.cpp}
-
-\subsection{Bounded Flow}
-\lstinputlisting{Flow_Matching/BoundedFlow.cpp}
-
-\subsection{MCMF}
-\lstinputlisting{Flow_Matching/MCMF.cpp}
-
-\subsection{Min Cost Circulation}
-\lstinputlisting{Flow_Matching/MinCostCirculation.cpp}
-
-\subsection{Gomory Hu}
-\lstinputlisting{Flow_Matching/GomoryHu.cpp}
-
-%\subsection{ISAP Algorithm}
-%\lstinputlisting{Flow_Matching/isap.cpp}
-
-\subsection{Stoer Wagner Algorithm}
-\lstinputlisting{Flow_Matching/StoerWagner.cpp}
-
-\subsection{Bipartite Matching}
-\lstinputlisting{Flow_Matching/BipartiteMatching.cpp}
-
-\subsection{Kuhn Munkres Algorithm}
-\lstinputlisting{Flow_Matching/KuhnMunkres.cpp}
-
-\subsection{Max Simple Graph Matching}
-\lstinputlisting{Flow_Matching/MaxSimpleGraphMatching.cpp}
-
-\subsection{Stable Marriage}
-\input{Flow_Matching/StableMarriage.tex}
-
-\subsection{Flow Model}
-\input{Flow_Matching/Model.tex}
-
-\section{Geometry}
-
-\subsection{Geometry Template}
-\lstinputlisting{Geometry/GeometryTemplate.cpp}
-
-%\subsection{Convex Hull}
-%\lstinputlisting{Geometry/ConvexHull.cpp}
-
-\subsection{Polar Angle Comparator}
-\lstinputlisting{Geometry/PolarAngleComp.cpp}
-
-\subsection{Minkowski Sum}
-\lstinputlisting{Geometry/MinkowskiSum.cpp}
-
-\subsection{Intersection of Circle and Convex Polygon}
-\lstinputlisting{Geometry/CircleConvexIntersection.cpp}
-
-\subsection{Intersection of Circles}
-\lstinputlisting{Geometry/CircleCircleIntersection.cpp}
-
-\subsection{Tangent Line of Circles}
-\lstinputlisting{Geometry/CircleCircleTangent.cpp}
-
-\subsection{Intersection of Line and Convex Polygon}
-\lstinputlisting{Geometry/ConvexLineIntersection.cpp}
-
-\subsection{Intersection of Line and Circle}
-\lstinputlisting{Geometry/CircleLineIntersection.cpp}
-
-\subsection{Point in Circle}
-\lstinputlisting{Geometry/PointInCircle.cpp}
-
-\subsection{Point in Convex}
-\lstinputlisting{Geometry/PointInConvex.cpp}
-
-\subsection{Half Plane Intersection}
-\lstinputlisting{Geometry/HalfPlaneIntersection.cpp}
-
-\subsection{Minimum Enclosing Circle}
-\lstinputlisting{Geometry/MinimumEnclosingCircle.cpp}
-
-\subsection{3D Point}
-\lstinputlisting{Geometry/3DPoint.cpp}
-
-\subsection{ConvexHull3D}
-\lstinputlisting{Geometry/ConvexHull3D.cpp}
-
-\subsection{Delaunay Triangulation}
-\lstinputlisting{Geometry/DelaunayTriangulation.cpp}
-
-\subsection{Voronoi Diagram}
-\lstinputlisting{Geometry/VoronoiDiagram.cpp}
-
-\subsection{Polygon Union}
-\lstinputlisting{Geometry/PolyUnion.cpp}
-
-\subsection{Tangent Point to Convex Hull}
-\lstinputlisting{Geometry/TangentPointToHull.cpp}
-
-\subsection{Heart}
-\lstinputlisting{Geometry/Heart.cpp}
-
-\subsection{Rotating Sweep Line}
-\lstinputlisting{Geometry/RotatingSweepLine.cpp}
-
-%\subsection{ConvexHullDP}
-%\lstinputlisting{Geometry/ConvexHullDP.cpp}
-
-\subsection{Vector In Poly}
-\lstinputlisting{Geometry/VectorInPoly.cpp}
-
-\section{Graph}
-
-\subsection{BCC}
-\lstinputlisting{Graph/BCC.cpp}
-
-\subsection{SCC}
-\lstinputlisting{Graph/SCC.cpp}
-
-\subsection{2-SAT}
-\lstinputlisting{Graph/2SAT.cpp}
-
-\subsection{Dominator Tree}
-\lstinputlisting{Graph/DominatorTree.cpp}
-
-\subsection{Virtual Tree}
-\lstinputlisting{Graph/VirtualTree.cpp}
-
-%\subsection{Directed Minimum Spanning Tree}
-%\lstinputlisting{Graph/DirectedMST.cpp}
-
-\subsection{Fast DMST}
-\lstinputlisting{Graph/FastDMST.cpp}
-
-\subsection{Vizing}
-\lstinputlisting{Graph/Vizing.cpp}
-
-\subsection{Maximum Clique}
-\lstinputlisting{Graph/MaximumClique.cpp}
-
-\subsection{Number of Maximal Clique}
-\lstinputlisting{Graph/NumberOfMaximalClique.cpp}
-
-\subsection{Minimum Mean Cycle}
-\lstinputlisting{Graph/MinimumMeanCycle.cpp}
-
-\subsection{Minimum Steiner Tree}
-\lstinputlisting{Graph/MinimumSteinerTree.cpp}
-
-\section{Math}
-
-\subsection{Extended Euclidean Algorithm}
-\lstinputlisting{Math/ExtGCD.cpp}
-
-\subsection{Floor \& Ceil}
-\lstinputlisting{Math/floor_ceil.cpp}
-
-\subsection{Legendre}
-\lstinputlisting{Math/Legendre.cpp}
-
-\subsection{Simplex}
-\lstinputlisting{Math/Simplex.cpp}
-
-\subsection{Floor Sum}
-\lstinputlisting{Math/FloorSum.cpp}
-
-\subsection{DiscreteLog}
-\lstinputlisting{Math/DiscreteLog.cpp}
-
-\subsection{Miller Rabin \& Pollard Rho}
-\lstinputlisting{Math/MillerRabin_PollardRho.cpp}
-
-\subsection{XOR Basis}
-\lstinputlisting{Math/Basis.cpp}
-
-\subsection{Linear Equation}
-\lstinputlisting{Math/LinearEquation.cpp}
-
-\subsection{Chinese Remainder Theorem}
-\lstinputlisting{Math/ChineseRemainderTheorem.cpp}
-
-\subsection{Sqrt Decomposition}
-\lstinputlisting{Math/SqrtDecomposition.cpp}
-
-\section{Misc}
-
-%\subsection{Fraction}
-%\lstinputlisting{Misc/Fraction.cpp}
-
-\subsection{Cyclic Ternary Search}
-\lstinputlisting{Misc/cyc_tsearch.cpp}
-
-\subsection{Matroid}
-\input{Misc/Matroid.tex}
-
-\section{Polynomial}
-
-\subsection{FWHT}
-\lstinputlisting{Polynomial/FWHT.cpp}
-
-\subsection{FFT}
-\lstinputlisting{Polynomial/FFT.cpp}
-
-\subsection{NTT}
-\lstinputlisting{Polynomial/NTT.cpp}
-
-\subsection{Polynomial Operation}
-\lstinputlisting{Polynomial/PolynomialOperation.cpp}
-
-\subsection{Generating Function}
-\input{Polynomial/GeneratingFunction.tex}
-
-\subsection{Bostan Mori}
-\lstinputlisting{Polynomial/BostanMori.cpp}
-
-\section{String}
-
-\subsection{KMP Algorithm}
-\lstinputlisting{String/KMP.cpp}
-
-\subsection{Manacher Algorithm}
-\lstinputlisting{String/Manacher.cpp}
-
-\subsection{Lyndon Factorization}
-\lstinputlisting{String/Duval.cpp}
-
-\subsection{Suffix Array}
-\lstinputlisting{String/SA.cpp}
-
-\subsection{Suffix Automaton}
-\lstinputlisting{String/SAM.cpp}
-
-\subsection{Z-value Algorithm}
-\lstinputlisting{String/Zvalue.cpp}
-
-\subsection{Main Lorentz}
-\lstinputlisting{String/MainLorentz.cpp}
-
-\subsection{AC Automaton}
-\lstinputlisting{String/Aho_Corasick.cpp}
-
-\subsection{Palindrome Automaton}
-\lstinputlisting{String/PAM.cpp}
-
-\section{Notes}
-
-\subsection{Geometry}
-\input{Notes/Geometry.tex}
-
-\subsection{Trigonometry}
-\input{Notes/Trigonometry.tex}
-
-\subsection{Calculus}
-\input{Notes/Calculus.tex}
-
-\subsection{Sum \& Series}
-\input{Notes/SumSeries.tex}
-
-\subsection{Misc}
-\input{Notes/Misc.tex}
-
-\subsection{Number}
-\input{Notes/Number.tex}
-
-%\onecolumn
-
-%\makegrid
+\input{content.tex}
 
 \end{document}
