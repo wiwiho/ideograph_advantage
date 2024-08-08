@@ -1,6 +1,5 @@
 using ld = ll;
 using pdd = pair<ld, ld>;
-using Line = pair<pdd, pdd>;
 #define X first
 #define Y second
 // ld eps = 1e-7;
@@ -33,17 +32,13 @@ bool collinearity(pdd a, pdd b, pdd c)
 bool btw(pdd p, pdd a, pdd b)
 { return collinearity(p, a, b) && sgn(dot(a - p, b - p)) <= 0; }
 
-bool seg_intersect(Line a, Line b){
-  pdd p1, p2, p3, p4;
-  tie(p1, p2) = a; tie(p3, p4) = b;
+bool seg_intersect(pdd p1, pdd p2, pdd p3, pdd p4){
   if(btw(p1, p3, p4) || btw(p2, p3, p4) || btw(p3, p1, p2) || btw(p4, p1, p2))
     return true;
   return ori(p1, p2, p3) * ori(p1, p2, p4) < 0 &&
     ori(p3, p4, p1) * ori(p3, p4, p2) < 0;
 }
-pdd intersect(Line a, Line b){
-  pdd p1, p2, p3, p4;
-  tie(p1, p2) = a; tie(p3, p4) = b;
+pdd intersect(pdd p1, pdd p2, pdd p3, pdd p4){
   ld a123 = cross(p2 - p1, p3 - p1);
   ld a124 = cross(p2 - p1, p4 - p1);
   return (p4 * a123 - p3 * a124) / (a123 - a124);

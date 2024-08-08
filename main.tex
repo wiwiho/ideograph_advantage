@@ -42,10 +42,9 @@ morekeywords={*}
 \setlist[enumerate]{itemsep=0pt, parsep=0pt, topsep=0pt, leftmargin=10pt}
 \setlist[itemize]{itemsep=0pt, parsep=0pt, topsep=0pt, leftmargin=10pt}
 
-\titlespacing*{\section}
-{0pt}{10pt}{0pt}
-\titlespacing*{\subsection}
-{0pt}{10pt}{0pt}
+\titlespacing\section{0pt}{-2pt plus 0pt minus 2pt}{-1pt plus 0pt minus 2pt}
+\titlespacing\subsection{0pt}{-2pt plus 0pt minus 2pt}{-1pt plus 0pt minus 2pt}
+\titlespacing\subsubsection{0pt}{-2pt plus 0pt minus 2pt}{-1pt plus 0pt minus 2pt}
 
 \begin{document}
 
@@ -97,6 +96,9 @@ morekeywords={*}
 \subsection{Pragma}
 \lstinputlisting{Basic/pragma.cpp}
 
+\subsection{SVG Writer}
+\lstinputlisting{Basic/SVG.cpp}
+
 \section{Data Structure}
 
 \subsection{Heavy-Light Decomposition}
@@ -120,8 +122,8 @@ morekeywords={*}
 \subsection{Convex 1D/1D}
 \lstinputlisting{DataStructure/Convex1D1D.cpp}
 
-\subsection{Dynamic Convex Hull}
-\lstinputlisting{DataStructure/DynamicConvexHull.cpp}
+%\subsection{Dynamic Convex Hull}
+%\lstinputlisting{DataStructure/DynamicConvexHull.cpp}
 
 \section{Flow \& Matching}
 
@@ -166,29 +168,47 @@ morekeywords={*}
 \subsection{Geometry Template}
 \lstinputlisting{Geometry/GeometryTemplate.cpp}
 
-\subsection{Convex Hull}
-\lstinputlisting{Geometry/ConvexHull.cpp}
-
-\subsection{Minimum Enclosing Circle}
-\lstinputlisting{Geometry/MinimumEnclosingCircle.cpp}
-
-\subsection{Minkowski Sum}
-\lstinputlisting{Geometry/MinkowskiSum.cpp}
+%\subsection{Convex Hull}
+%\lstinputlisting{Geometry/ConvexHull.cpp}
 
 \subsection{Polar Angle Comparator}
 \lstinputlisting{Geometry/PolarAngleComp.cpp}
 
+\subsection{Minkowski Sum}
+\lstinputlisting{Geometry/MinkowskiSum.cpp}
+
+\subsection{Intersection of Circle and Convex Polygon}
+\lstinputlisting{Geometry/CircleConvexIntersection.cpp}
+
+\subsection{Intersection of Circles}
+\lstinputlisting{Geometry/CircleCircleIntersection.cpp}
+
+\subsection{Tangent Line of Circles}
+\lstinputlisting{Geometry/CircleCircleTangent.cpp}
+
+\subsection{Intersection of Line and Convex Polygon}
+\lstinputlisting{Geometry/ConvexLineIntersection.cpp}
+
+\subsection{Intersection of Line and Circle}
+\lstinputlisting{Geometry/CircleLineIntersection.cpp}
+
+\subsection{Point in Circle}
+\lstinputlisting{Geometry/PointInCircle.cpp}
+
+\subsection{Point in Convex}
+\lstinputlisting{Geometry/PointInConvex.cpp}
+
 \subsection{Half Plane Intersection}
 \lstinputlisting{Geometry/HalfPlaneIntersection.cpp}
+
+\subsection{Minimum Enclosing Circle}
+\lstinputlisting{Geometry/MinimumEnclosingCircle.cpp}
 
 \subsection{3D Point}
 \lstinputlisting{Geometry/3DPoint.cpp}
 
 \subsection{ConvexHull3D}
 \lstinputlisting{Geometry/ConvexHull3D.cpp}
-
-\subsection{Circle Operations}
-\lstinputlisting{Geometry/CircleOperations.cpp}
 
 \subsection{Delaunay Triangulation}
 \lstinputlisting{Geometry/DelaunayTriangulation.cpp}
@@ -201,6 +221,18 @@ morekeywords={*}
 
 \subsection{Tangent Point to Convex Hull}
 \lstinputlisting{Geometry/TangentPointToHull.cpp}
+
+\subsection{Heart}
+\lstinputlisting{Geometry/Heart.cpp}
+
+\subsection{Rotating Sweep Line}
+\lstinputlisting{Geometry/RotatingSweepLine.cpp}
+
+%\subsection{ConvexHullDP}
+%\lstinputlisting{Geometry/ConvexHullDP.cpp}
+
+\subsection{Vector In Poly}
+\lstinputlisting{Geometry/VectorInPoly.cpp}
 
 \section{Graph}
 
