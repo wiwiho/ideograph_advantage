@@ -4,4 +4,6 @@ map <F9> :w<bar>!g++ "%" -o %:r -std=c++17 -Wall -Wextra -Wshadow -O2 -Dzisk -g 
 map <F8> :!./%:r<CR>
 inoremap {<CR> {<CR>}<ESC>ko
 ca Hash w !cpp -dD -P -fpreprocessed \| tr -d '[:space:]' \| md5sum \| cut -c-6
-# -D_GLIBCXX_ASSERTIONS, -D_GLIBCXX_DEBUG
+inoremap fj <ESC>
+vnoremap fj <ESC>
+" -D_GLIBCXX_ASSERTIONS, -D_GLIBCXX_DEBUG
