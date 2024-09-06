@@ -1,0 +1,13 @@
+\renewcommand{\inputnote}[2]{
+    \subsection*{#1}
+    \input{#2}
+}
+\renewcommand{\inputcode}[2]{
+    \subsection*{#1 \footnotesize{[\texttt{\captureshell{cpp #2 -dD -P -fpreprocessed | tr -d '[:space:]' | md5sum | cut -c-6}}]}}
+    \lstinputlisting{#2}
+}
+
+\section*{TOPC Addition}
+
+\inputcode{Trapezoidalization}{Geometry/Trapezoidalization.cpp}
+\inputcode{Weighted General Matching}{Flow_Matching/WeightedGeneralMatching.cpp}
