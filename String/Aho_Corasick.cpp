@@ -42,6 +42,6 @@ struct AC_Automaton {
   }
   void solve() {
     for (int i : ord | views::reverse)
-      cnt[fail[i]] += cnt[i];
+      if (i) cnt[fail[i]] += cnt[i];
   }
 }; 
