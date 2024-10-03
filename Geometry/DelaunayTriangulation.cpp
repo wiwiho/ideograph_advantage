@@ -1,21 +1,22 @@
 /* Delaunay Triangulation:
-Given a sets of points on 2D plane, find a
-triangulation such that no points will strictly
-inside circumcircle of any triangle. */
+   Given a sets of points on 2D plane, find a
+   triangulation such that no points will strictly
+   inside circumcircle of any triangle. */
 struct Edge {
   int id; // oidx[id]
   list<Edge>::iterator twin;
   Edge(int _id = 0):id(_id) {}
 };
 struct Delaunay { // 0-base
-  int n, oidx[N];
-  list<Edge> head[N]; // result udir. graph
-  pll p[N];
-  void init(int _n, pll _p[]) {
-    n = _n, iota(oidx, oidx + n, 0);
+  int n;
+  vector<int> oidx;
+  vector<list<Edge>> head; // result udir. graph
+  vector<pll> p;
+  Delaunay(int _n, vector<pll> _p): n(_n), oidx(n), head(n), p(n) {
+    iota(iter(oidx), 0);
     for (int i = 0; i < n; ++i) head[i].clear();
-    sort(oidx, oidx + n, [&](int a, int b) 
-    { return _p[a] < _p[b]; });
+    sort(iter(oidx), [&](int a, int b) 
+        { return _p[a] < _p[b]; });
     for (int i = 0; i < n; ++i) p[i] = _p[oidx[i]];
     divide(0, n - 1);
   }
@@ -45,9 +46,9 @@ struct Delaunay { // 0-base
       pll pt[2] = {p[nw[0]], p[nw[1]]};
       int ch = -1, sd = 0;
       for (int t = 0; t < 2; ++t)
-          for (auto it : head[nw[t]])
-              if (ori(pt[0], pt[1], p[it.id]) > 0 && (ch == -1 || in_cc({pt[0], pt[1], p[ch]}, p[it.id])))
-                  ch = it.id, sd = t;
+        for (auto it : head[nw[t]])
+          if (ori(pt[0], pt[1], p[it.id]) > 0 && (ch == -1 || in_cc({pt[0], pt[1], p[ch]}, p[it.id])))
+            ch = it.id, sd = t;
       if (ch == -1) break; // upper common tangent
       for (auto it = head[nw[sd]].begin(); it != head[nw[sd]].end(); )
         if (seg_strict_intersect(pt[sd], p[it->id], pt[sd ^ 1], p[ch]))
@@ -56,4 +57,4 @@ struct Delaunay { // 0-base
       nw[sd] = ch, addEdge(nw[0], nw[1]);
     }
   }
-} tool;
+};
