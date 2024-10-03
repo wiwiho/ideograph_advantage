@@ -19,7 +19,7 @@ struct DynamicHull {
       dq.pop_back();
     if (dq.empty()) return dq.pb(seg({x, 1, C})), void();
     dq.back().r = intersect(dq.back().x, x);
-    dq.pb(seg({x, dq.back().l + 1, C}));
+    if (dq.back(). r + 1 <= C) dq.pb(seg({x, dq.back().r + 1, C}));
   }
   int query(int x) {
     while (dq.front().r < x) dq.pop_front();
