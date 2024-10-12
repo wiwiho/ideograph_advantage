@@ -1,12 +1,11 @@
-// find D+1 edge coloring of a graph with max deg D
-struct vizing { // returns edge coloring in adjacent matrix G. 1 - based
-  const int N = 105;
-  int C[N][N], G[N][N], X[N], vst[N], n; // ans: G[i][j]
-  void init(int _n) { n = _n; // n = |V|+1
-    for (int i = 0; i <= n; ++i)
-      for (int j = 0; j <= n; ++j) 
-        C[i][j] = G[i][j] = 0;
-  }
+// find D+1 edge coloring of a graph with max deg D, O(nm)
+struct Vizing { // returns maxdeg+1 edge coloring in adjacent matrix G
+  int n; // 1-based for vertices and colors, simple graph
+  vector<vector<int>> C, G;
+  vector<int> X, vst;
+  Vizing(int _n): n(_n),
+  C(n + 1, vector<int>(n + 2)), G(n + 1, vector<int>(n + 1)), 
+  X(n + 1, 1), vst(n + 1) {}
   void solve(vector<pii> &E) {
     auto update = [&](int u)
     { for (X[u] = 1; C[u][X[u]]; ++X[u]); };
@@ -27,23 +26,22 @@ struct vizing { // returns edge coloring in adjacent matrix G. 1 - based
       if (!C[u][c2]) X[u] = c2;
       return p;
     };
-    fill_n(X + 1, n, 1);
     for (int t = 0; t < SZ(E); ++t) {
-      int u = E[t].X, v0 = E[t].Y, v = v0, c0 = X[u], c = c0, d;
+      int u = E[t].ff, v0 = E[t].ss, v = v0, c0 = X[u], c = c0, d;
       vector<pii> L;
-      fill_n(vst + 1, n, 0);
+      fill(iter(vst), 0);
       while (!G[u][v0]) {
         L.emplace_back(v, d = X[v]);
-        if (!C[v][c]) for (int a = SZ(L) - 1; a >= 0; --a) c = color(u, L[a].X, c);
-        else if (!C[u][d]) for (int a = SZ(L) - 1; a >= 0; --a) color(u, L[a].X, L[a].Y);
+        if (!C[v][c]) for (int a = SZ(L) - 1; a >= 0; --a) c = color(u, L[a].ff, c);
+        else if (!C[u][d]) for (int a = SZ(L) - 1; a >= 0; --a) color(u, L[a].ff, L[a].ss);
         else if (vst[d]) break;
         else vst[d] = 1, v = C[u][d];
       }
       if (!G[u][v0]) {
         for (; v; v = flip(v, c, d), swap(c, d));
         if (int a; C[u][c0]) {
-          for (a = SZ(L) - 2; a >= 0 && L[a].Y != c; --a);
-          for (; a >= 0; --a) color(u, L[a].X, L[a].Y);
+          for (a = SZ(L) - 2; a >= 0 && L[a].ss != c; --a);
+          for (; a >= 0; --a) color(u, L[a].ff, L[a].ss);
         }
         else --t;
       }
