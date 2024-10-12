@@ -29,5 +29,5 @@ ostream& operator<<(ostream& o, pair<A,B> p)
 { return o << '(' << p.ff << ',' << p.ss << ')'; }
 
 int main(){
-  ios_base::sync_with_stdio(0); cin.tie(0);
+  ios_base::sync_with_stdio(false); cin.tie(0);
 }

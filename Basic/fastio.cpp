@@ -1,5 +1,4 @@
-// from JAW
-inline int my_getchar() {
+char readchar() {
   const int N = 1<<20;
   static char buf[N];
   static char *p = buf , *end = buf;
@@ -10,43 +9,19 @@ inline int my_getchar() {
   return *p++;
 }
 
-inline int readint(int &x) {
-  static char c , neg;
-  while((c = my_getchar()) < '-') {
-    if(c == EOF) return 0;
+const int buf_size = 524288;
+struct Writer {
+  char buf[buf_size]; int size = 0, ret;
+  void flush() { ret = write(1, buf, size); size = 0; }
+  void _flush(int sz) { if (sz + size > buf_size) flush(); }
+  void write_char(char c) { _flush(1); buf[size++] = c; }
+  void write_int(int x) {
+    const int len = 20;
+    _flush(len); int ptr = 0;
+    if (x < 0) buf[size++] = '-', x = -x;
+    if (x == 0) buf[size + (ptr++)] = '0';
+    else for (; x; x /= 10) buf[size + (ptr++)] = '0' + x % 10;
+    reverse(buf + size, buf + size + ptr);
+    size += ptr;
   }
-  neg = (c == '-') ? -1 : 1;
-  x = (neg == 1) ? c - '0' : 0;
-  while((c = my_getchar()) >= '0') x = (x << 3) + (x << 1) + (c - '0');
-  x *= neg;
-  return 1;
-}
-
-const int kBufSize = 524288;
-char inbuf[kBufSize];
-char buf_[kBufSize]; size_t size_;
-inline void Flush_() { write(1, buf_, size_); size_ = 0; }
-inline void CheckFlush_(size_t sz) { if (sz + size_ > kBufSize) Flush_(); }
-
-inline void PutInt(int a) {
-  static char tmp[22] = "01234567890123456789\n";
-  CheckFlush_(10);
-  if(a < 0){
-    *(buf_ + size_) = '-';
-    a = ~a + 1;
-    size_++;
-  }
-  int tail = 20;
-  if (!a) {
-    tmp[--tail] = '0';
-  } else {
-    for (; a; a /= 10) tmp[--tail] = (a % 10) ^ '0';
-  }
-  memcpy(buf_ + size_, tmp + tail, 21 - tail);
-  size_ += 21 - tail;
-}
-
-int main(){
-  Flush_();
-  return 0;
-}
+}; // remember to call flush
