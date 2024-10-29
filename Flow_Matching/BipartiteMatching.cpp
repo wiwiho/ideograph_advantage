@@ -1,21 +1,3 @@
-//min vertex cover: take all unmatched vertices in L and find alternating tree,
-//ans is not reached in L + reached in R
-// O(VE)
-int n; // 1-based, max matching
-int mx[maxn], my[maxn];
-bool adj[maxn][maxn], vis[maxn];
-bool dfs(int u) {
-  if (vis[u]) return 0;
-  vis[u] = 1;
-  for (int v = 1;v <= n;v++) {
-    if (!adj[u][v]) continue;
-    if (!my[v] || (my[v] && dfs(my[v]))) {
-      mx[u] = v, my[v] = u;
-      return 1;
-    }
-  }
-  return 0;
-}
 // O(E sqrt(V)), O(E log V) for random sparse graphs
 struct BipartiteMatching { // 0-based
   int nl, nr;
