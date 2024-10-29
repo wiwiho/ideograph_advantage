@@ -36,7 +36,8 @@ struct MCMF { // 0-base
     s = _s, t = _t; ll flow = 0, cost = 0;
     if (neg) BellmanFord(), pot = dis;
     for (; BellmanFord(); pot = dis) {
-      for (int i = 0; i < n; ++i) dis[i] += pot[i] - pot[s];
+      for (int i = 0; i < n; ++i)
+        if (dis[i] != INF) dis[i] += pot[i] - pot[s];
       flow += up[t], cost += up[t] * dis[t];
       for (int i = t; past[i]; i = past[i]->from) {
         auto &e = *past[i];
