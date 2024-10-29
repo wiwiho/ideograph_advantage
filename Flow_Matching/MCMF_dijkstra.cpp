@@ -32,10 +32,31 @@ struct MCMF { // 0-base
     }
     return dis[t] != INF;
   }
+  bool Dijkstra() {
+    fill(iter(dis), INF);
+    priority_queue<pll, vector<pll>, greater<pll>> pq;
+    auto relax = [&](int u, ll d, ll cap, Edge *e) {
+      if (cap > 0 && dis[u] > d) {
+        dis[u] = d, up[u] = cap, past[u] = e;
+        pq.push(pll(d, u));
+      }
+    };
+    relax(s, 0, INF, 0);
+    while (!pq.empty()) {
+      auto [d, u] = pq.top();
+      pq.pop();
+      if (dis[u] != d) continue;
+      for (auto &e : g[u]) {
+        ll d2 = dis[u] + e.cost + pot[u] - pot[e.to];
+        relax(e.to, d2, min(up[u], e.cap - e.flow), &e);
+      }
+    }
+    return dis[t] != INF;
+  }
   pair<ll, ll> solve(int _s, int _t, bool neg = true) {
     s = _s, t = _t; ll flow = 0, cost = 0;
     if (neg) BellmanFord(), pot = dis;
-    for (; BellmanFord(); pot = dis) {
+    for (; Dijkstra(); pot = dis) {
       for (int i = 0; i < n; ++i) dis[i] += pot[i] - pot[s];
       flow += up[t], cost += up[t] * dis[t];
       for (int i = t; past[i]; i = past[i]->from) {
