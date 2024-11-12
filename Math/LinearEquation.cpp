@@ -1,4 +1,4 @@
-vector<int> RREF(vector<vector<ll>> &mat) {
+vector<int> RREF(vector<vector<ll>> &mat) { // SCOPE HASH
   int N = SZ(mat), M = SZ(mat[0]);
   int rk = 0;
   vector<int> cols;
@@ -21,7 +21,7 @@ vector<int> RREF(vector<vector<ll>> &mat) {
   }
   return cols;
 }
-struct LinearEquation {
+struct LinearEquation { // SCOPE HASH
   bool ok;
   vector<ll> par; //particular solution (Ax = b)
   vector<vector<ll>> homo; //homogenous (Ax = 0)

@@ -1,4 +1,5 @@
 // 1-based
+// == PART HASH ==
 template <typename Val, typename SVal> struct LCT {
   struct node {
     int pa, ch[2]; bool rev; int size;
@@ -30,7 +31,7 @@ template <typename Val, typename SVal> struct LCT {
     swap(lc, rc), swap(cur.sum, cur.rsum);
     cur.rev ^= 1;
   }
-  /* --- */
+// == PART HASH ==
   void rotate(int u) {
     int f = cur.pa, g = o[f].pa, l = is_rch(u);
     if (cur.ch[l ^ 1]) o[cur.ch[l ^ 1]].pa = f;
@@ -66,7 +67,7 @@ template <typename Val, typename SVal> struct LCT {
   }
   void split(int x, int y) { chroot(x); access(y); }
   void chroot(int u) { access(u); set_rev(u); }
-  /* --- */
+// == PART HASH ==
   LCT(int n = 0) : o(n + 1) { o[0].size = 0; }
   void set_val(int u, const Val &v) {
     splay(u); cur.v = v; up(u); }

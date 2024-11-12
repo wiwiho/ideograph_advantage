@@ -1,4 +1,5 @@
 mt19937 rng(880301);
+// == PART HASH ==
 struct node {
   ll data; int sz;
   node *l, *r;
@@ -37,6 +38,7 @@ void split2(node *o, node *&a, node *&b, int k) {
   else b = o, split2(o->l, a, b->l, k);
   o->up();
 }
+// == PART HASH ==
 node *kth(node *o, ll k) { // 1-based
   if (k <= sz(o->l)) return kth(o->l, k);
   if (k == sz(o->l) + 1) return o;
