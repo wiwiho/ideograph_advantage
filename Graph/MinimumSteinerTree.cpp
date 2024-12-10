@@ -1,4 +1,3 @@
-// from 8BQube
 // O(V 3^T + V^2 2^T)
 struct SteinerTree { // 0-base
   static const int T = 10, N = 105, INF = 1e9;
