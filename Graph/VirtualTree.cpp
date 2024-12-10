@@ -1,8 +1,6 @@
-// copy from 8BQube
 vector<int> vG[N];
 int top, st[N];
 int vrt = -1;
-
 void insert(int u) {
 	if (top == -1) return st[++top] = vrt = u, void();
 	int p = LCA(st[top], u);
@@ -14,12 +12,10 @@ void insert(int u) {
 		vG[p].pb(st[top]), --top, st[++top] = p;
 	st[++top] = u;
 }
-
 void reset(int u) {
 	for (int i : vG[u]) reset(i);
 	vG[u].clear();
 }
-
 void solve(vector<int> &v) {
 	top = -1;
 	sort(iter(v),
