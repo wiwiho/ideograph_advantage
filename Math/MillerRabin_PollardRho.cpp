@@ -6,7 +6,7 @@
 ll mul(ll a, ll b, ll n){
   return (__int128)a * b % n;
 }
-bool Miller_Rabin(ll a, ll n) {
+bool Miller_Rabin(ll a, ll n) { // SCOPE HASH
   if ((a = a % n) == 0) return 1;
   if (n % 2 == 0) return n == 2;
   ll tmp = (n - 1) / ((n - 1) & (1 - n));
@@ -18,14 +18,14 @@ bool Miller_Rabin(ll a, ll n) {
     if ((x = mul(x, x, n)) == n - 1) return 1;
   return 0;
 }
-bool prime(ll n){
+bool prime(ll n){ // SCOPE HASH
   vector<ll> tmp = {2, 325, 9375, 28178, 450775, 9780504, 1795265022};
   for(ll i : tmp)
     if(!Miller_Rabin(i, n)) return false;
   return true;
 }
 map<ll, int> cnt;
-void PollardRho(ll n) {
+void PollardRho(ll n) { // SCOPE HASH
   if (n == 1) return;
   if (prime(n)) return ++cnt[n], void();        
   if (n % 2 == 0) return PollardRho(n / 2), ++cnt[2], void();

@@ -21,6 +21,7 @@ vector<int> RREF(vector<vector<ll>> &mat) { // SCOPE HASH
   }
   return cols;
 }
+// sol = particualr + linear combination of homogenous
 struct LinearEquation { // SCOPE HASH
   bool ok;
   vector<ll> par; //particular solution (Ax = b)
