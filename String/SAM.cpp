@@ -1,3 +1,4 @@
+// == PART HASH ==
 struct exSAM {
   const int CNUM = 26;
   // len: maxlength, link: fail link
@@ -14,7 +15,8 @@ struct exSAM {
     next.assign(2 * n, vector<int>(CNUM));
     newnode(), link[0] = -1; 
   }
-  int insertSAM(int last, int c) {
+// == PART HASH ==
+  int insertSAM(int last, int c) { // SCOPE HASH
     // not exSAM: cur = newnode(), p = last
     int cur = next[last][c];
     len[cur] = len[last] + 1;
@@ -34,7 +36,7 @@ struct exSAM {
     link[q] = clone;
     return cur;
   }
-  void insert(const string &s) {
+  void insert(const string &s) { // SCOPE HASH
     int cur = 0;
     for (auto ch : s) {
       int &nxt = next[cur][int(ch - 'a')];
@@ -42,6 +44,7 @@ struct exSAM {
       cnt[cur = nxt] += 1;
     }
   }
+// == PART HASH ==
   void build() {
     queue<int> q;
     q.push(0);
