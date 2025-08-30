@@ -39,8 +39,9 @@ template <typename Val, typename SVal> struct LCT {
     o[f].ch[l] = cur.ch[l ^ 1], cur.ch[l ^ 1] = f;
     cur.pa = g, o[f].pa = u; up(f);
   }
+  vector<int> stk;
   void splay(int u) {
-    vector<int> stk = {u};
+    stk.clear(); stk.pb(u);
     while (not is_root(stk.back()))
       stk.push_back(o[stk.back()].pa);
     while (not stk.empty())
