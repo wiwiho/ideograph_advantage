@@ -106,12 +106,13 @@ stringstyle=\itshape\color{Green4},
     \subsection[#1]{#1}
     \input{#2}
 }
+\newcommand{\getfilehash}[1]{\captureshell{cpp #1.auto -dD -P -fpreprocessed | tr -d '[:space:]' | md5sum | cut -c-6}}
 \newcommand{\inputcode}[2]{
     \IfFileExists{#2.auto}{
-        \subsection[#1]{#1 \footnotesize{[\texttt{\captureshell{cpp #2.auto -dD -P -fpreprocessed | tr -d '[:space:]' | md5sum | cut -c-6}}]}}
+        \subsection[#1]{#1 \footnotesize{[\texttt{\getfilehash{#2}}]}}
         \lstinputlisting{#2.auto}
     }{
-        \subsection[#1]{#1 \footnotesize{[\texttt{\captureshell{cpp #2 -dD -P -fpreprocessed | tr -d '[:space:]' | md5sum | cut -c-6}}]}}
+        \subsection[#1]{#1 \footnotesize{[\texttt{\getfilehash{#2}}]}}
         \lstinputlisting{#2}
     }
 }
