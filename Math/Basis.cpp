@@ -21,23 +21,4 @@ struct Basis{
     }
     return false;
   }
-  ll getmax(ll x = 0){
-    for(ll i : b) x = max(x, x ^ i);
-    return x;
-  }
-  ll getmin(ll x = 0){
-    for(ll i : b) x = min(x, x ^ i);
-    return x;
-  }
-  bool can(ll x){
-    return getmin(x) == 0;
-  }
-  ll kth(ll k){ // kth smallest, 0-indexed
-    vector<ll> tmp;
-    for(ll i : b) if(i) tmp.pb(i);
-    ll ans = 0;
-    for(int i = 0; i < SZ(tmp); i++)
-      if(1LL << i & k) ans ^= tmp[i];
-    return ans;
-  }
 };
