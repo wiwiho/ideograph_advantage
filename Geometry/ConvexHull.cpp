@@ -7,9 +7,7 @@ vector<int> getConvexHull(vector<pdd>& pts){
 		int sz = SZ(hull);
 		for(int j : id){
 			pdd p = pts[j];
-			while(SZ(hull) - sz >= 2 && 
-					cross(pts[hull.back()] - pts[hull[SZ(hull) - 2]], 
-						p - pts[hull[SZ(hull) - 2]]) <= 0)
+			while(SZ(hull) - sz >= 2 && ori(pts[hull.end()[-2]], pts[hull.back()], p) <= 0)
 				hull.pop_back();
 			hull.pb(j);
 		}
