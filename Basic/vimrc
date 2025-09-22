@@ -1,5 +1,5 @@
 sy on
-se nu rnu bs=2 sw=4 ts=4 hls ls=2 si acd bo=all mouse=a
+se nu rnu bs=2 sw=4 ts=4 hls ls=2 si acd bo=all mouse=a et
 map <F9> :w<bar>!g++ "%" -o %:r -std=c++20 -Wall -Wextra -Wshadow -O2 -Dzisk -g -fsanitize=address,undefined<CR>
 map <F8> :!./%:r<CR>
 inoremap {<CR> {<CR>}<ESC>ko
