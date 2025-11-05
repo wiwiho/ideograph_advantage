@@ -9,7 +9,7 @@ struct DynamicHull : multiset<Line, less<>> {
   bool isect(iterator x, iterator y) {
     if (y == end()) { x->p = kInf; return 0; }
     if (x->a == y->a) x->p = x->b > y->b ? kInf : -kInf;
-    else x->p = iceil(y->b - x->b, x->a - y->a);
+    else x->p = ifloor(y->b - x->b, x->a - y->a);
     return x->p >= y->p;
   }
   void addline(ll a, ll b) {
