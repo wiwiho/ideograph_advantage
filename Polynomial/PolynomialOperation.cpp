@@ -13,7 +13,7 @@ struct Poly : vector<int> { // coefficients in [0, P)
   Poly &isz(int m) { return resize(m), V; }
   // == PART HASH ==
   Poly &iadd(const Poly &rhs) { // SCOPE HASH
-	fi(0, n()) add(V[i], rhs[i]);
+    fi(0, n()) add(V[i], rhs[i]);
     return V; // need n() == rhs.n() 
   }
   Poly &imul(int k) { // SCOPE HASH
@@ -21,27 +21,26 @@ struct Poly : vector<int> { // coefficients in [0, P)
     return V;
   }
   Poly mul_xk(int m){ // SCOPE HASH
-	if(m<0){
-	  m = -m;
-	  fi(0, n() - m) V[i] = V[i+m];
-	  isz(n() - m);
-	}
-	else if(m>0){
-	  isz(n() + m);
-	  for(int i=n()-1;i>=0;i--){
-		if(i>=m) V[i] = V[i-m];
-		else V[i]=0; 
-	  }
-	}
-	return V;
+    if(m<0){
+      m = -m;
+      fi(0, n() - m) V[i] = V[i+m];
+      isz(n() - m);
+    }
+    else if(m>0){
+      isz(n() + m);
+      for(int i=n()-1;i>=0;i--){
+        if(i>=m) V[i] = V[i-m];
+        else V[i]=0; 
+      }
+    }
+    return V;
   }
   Poly Mul(const Poly &rhs) const { // SCOPE HASH
     int m = 1;
     while (m < n() + rhs.n() - 1) m <<= 1;
     assert(m <= MAXN);
     Poly X(V, m), Y(rhs, m);
-    ntt(X, m);
-	ntt(Y, m);
+    ntt(X, m); ntt(Y, m);
     fi(0, m) X[i] = mul(X[i], Y[i]);
     ntt(X, m, true);
     return X.isz(n() + rhs.n() - 1);
@@ -53,11 +52,10 @@ struct Poly : vector<int> { // coefficients in [0, P)
     assert(m <= MAXN);
     Poly Xi = Poly(V, (n() + 1) / 2).Inv().isz(m);
     Poly Y(V, m);
-    ntt(Xi, m);
-	ntt(Y, m);
+    ntt(Xi, m); ntt(Y, m);
     fi(0, m) {
       Xi[i] = mul(Xi[i], (2 - mul(Xi[i], Y[i])));
-	  add(Xi[i], mod);
+      add(Xi[i], mod);
     }
     ntt(Xi, m, true);
     return Xi.isz(n());
@@ -69,9 +67,9 @@ struct Poly : vector<int> { // coefficients in [0, P)
     Poly g(n);
     int cp = 1;
     for (int i = 0; i < n; i++){
-		g[i] = mul(cp, ivf[i]); 
-		cp = mul(cp, c);
-	}	
+      g[i] = mul(cp, ivf[i]); 
+      cp = mul(cp, c);
+    }	
     V = V.irev().Mul(g).isz(n).irev();
     for (int i = 0; i < n; i++) V[i] = mul(V[i], ivf[i]);
     return V;
@@ -97,10 +95,10 @@ struct Poly : vector<int> { // coefficients in [0, P)
     Poly X = Poly(V, (n() + 1) / 2).Exp().isz(n());
     Poly Y = X.Ln();
     Y[0] = mod - 1;
-	fi(0, n()){	
-		Y[i] = V[i] - Y[i];
-		add(Y[i], mod);
-	}	
+    fi(0, n()){	
+      Y[i] = V[i] - Y[i];
+      add(Y[i], mod);
+    }	
     return X.Mul(Y).isz(n());
   }
   // == PART HASH ==
@@ -152,13 +150,12 @@ struct Poly : vector<int> { // coefficients in [0, P)
     return down[1];
   }
   pair<Poly, Poly> DivMod(const Poly &rhs) const { // SCOPE HASH
-	// 5e5, 0.9s
+                                                   // 5e5, 0.9s
     if (n() < rhs.n()) return {{0}, V};
     const int m = n() - rhs.n() + 1;
     Poly X(rhs); // (rhs.)back() != 0 
     X.irev().isz(m);
-    Poly Y(V);
-    Y.irev().isz(m);
+    Poly Y(V); Y.irev().isz(m);
     Poly Q = Y.Mul(X.Inv()).isz(m).irev();
     X = rhs.Mul(Q), Y = V;
     fi(0, n()) add(Y[i], -X[i]);
@@ -189,20 +186,20 @@ struct Poly : vector<int> { // coefficients in [0, P)
   }
   // == PART HASH ==
   Poly Shift_samples(int c, int m){ 
-	// V = \sum f(n) x^n, return f(c), ..., f(c+m-1); 2^19, 2s
-	Poly A=V;
-	Poly Q(n()+1), S(n());
-	int nw=1;
-	fi(0, n()+1) { Q[i] = mul(1-2*(i&1), nw); nw = mul(nw, n()-i, inv(i+1));}
-	nw=1;
-	fi(0, n()) { S[i] = mul(1-2*(i&1), nw); nw = mul(nw, c-i, inv(i+1));}
-	S=S.Shift(1);
-	fi(0,n()) if(i&1) {S[i] = mul(S[i],-1); add(S[i], mod);};
-	Poly C=Mul(Q).mul_xk(-n());
-	auto tmp=Q.isz(m).Inv();
-	C=C.imul(-1).Mul(tmp).isz(m).mul_xk(n());
-	A=A.isz(n()+m).iadd(C).irev().isz(n()+m);
-	return A.Mul(S).mul_xk(-n()+1).isz(m+1).irev();
+    // V = \sum f(n) x^n, return f(c), ..., f(c+m-1); 2^19, 2s
+    Poly A=V;
+    Poly Q(n()+1), S(n());
+    int nw=1;
+    fi(0, n()+1) { Q[i] = mul(1-2*(i&1), nw); nw = mul(nw, n()-i, inv(i+1));}
+    nw=1;
+    fi(0, n()) { S[i] = mul(1-2*(i&1), nw); nw = mul(nw, c-i, inv(i+1));}
+    S=S.Shift(1);
+    fi(0,n()) if(i&1) {S[i] = mul(S[i],-1); add(S[i], mod);};
+    Poly C=Mul(Q).mul_xk(-n());
+    auto tmp=Q.isz(m).Inv();
+    C=C.imul(-1).Mul(tmp).isz(m).mul_xk(n());
+    A=A.isz(n()+m).iadd(C).irev().isz(n()+m);
+    return A.Mul(S).mul_xk(-n()+1).isz(m+1).irev();
   }
   // == PART HASH ==
   Poly power_projection(Poly wt, int m) {	// SCOPE HASH
@@ -217,7 +214,7 @@ struct Poly : vector<int> { // coefficients in [0, P)
       int pow = 1;
       fi(0, m + 1) {B[i] = mul(pow, ivf[i]); pow = mul(pow, c);}  // inv. of fac
       A = A.Mul(B).isz(m + 1);
-	  fi(0, m + 1) A[i] = mul(A[i], fac[i]);
+      fi(0, m + 1) A[i] = mul(A[i], fac[i]);
       return A;
     }
     int n = 1;
@@ -232,8 +229,8 @@ struct Poly : vector<int> { // coefficients in [0, P)
       Poly pq = p.Mul(r).isz(4 * n * k);
       Poly qq = q.Mul(r).isz(4 * n * k);
       fi(0, 2 * n * k) {
-		add(pq[2 * n * k + i], p[i]);
-		add(qq[2 * n * k + i], (q[i] + r[i]) % mod);
+        add(pq[2 * n * k + i], p[i]);
+        add(qq[2 * n * k + i], (q[i] + r[i]) % mod);
       }
       fill(p.begin(), p.end(), 0);
       fill(q.begin(), q.end(), 0);
@@ -241,8 +238,7 @@ struct Poly : vector<int> { // coefficients in [0, P)
         p[n * j + i] = pq[(2 * n) * j + (2 * i + 1)];
         q[n * j + i] = qq[(2 * n) * j + (2 * i + 0)];
       }
-      n /= 2;
-	  k *= 2;
+      n /= 2; k *= 2;
     }
     Poly ans(k);
     fi(0, k) ans[i] = p[2 * i];
@@ -260,11 +256,11 @@ struct Poly : vector<int> { // coefficients in [0, P)
     wt[n] = 1;
     Poly A = V.power_projection(wt, n);
     Poly g(n);
-	fi(1, n + 1) g[n - i] = mul(n, A[i], inv(i));
+    fi(1, n + 1) g[n - i] = mul(n, A[i], inv(i));
     g = g.Pow(neg(inv(n)));
     g.insert(g.begin(), 0);
     int pow = 1;
-	fi(0, g.n()) {g[i] = mul(g[i], pow); pow = mul(pow, ic);}
+    fi(0, g.n()) {g[i] = mul(g[i], pow); pow = mul(pow, ic);}
     return g;
   }
   // == PART HASH ==
@@ -272,33 +268,30 @@ struct Poly : vector<int> { // coefficients in [0, P)
     return Poly(V).irev().Mul(rhs).isz(n()).irev();
   }
   Poly comp_rec(int n, int k, Poly Q){ // SCOPE HASH 
-	if (n == 1) {
-	  Poly p(2 * k);
-	  irev();
-	  fi(0, k) p[2 * i] = V[i];
-	  return p;
-	}
-	Poly R(2 * n * k);
-	fi(0, 2 * n * k) R[i] = (i % 2 == 0 ? Q[i] : neg(Q[i]));
-	Poly QQ = Q.Mul(R).isz(4 * n * k);
-	fi(0, 2 * n * k) {
-	  add(QQ[2 * n * k + i], (Q[i] + R[i]) % mod);
-	}
-	Poly nxt_Q(2 * n * k);
-	for(int j = 0; j < 2 * k; j++) fi(0, n / 2) {
-	  nxt_Q[n * j + i] = QQ[(2 * n) * j + (2 * i + 0)];
-	}
-	Poly nxt_p = comp_rec(n / 2, k * 2, nxt_Q);
-	Poly pq(4 * n * k);
-	for(int j = 0; j < 2 * k; j++) fi(0, n / 2) {
-	  add(pq[(2 * n) * j + (2 * i + 1)], nxt_p[n * j + i]);
-	}
-	Poly p(2 * n * k);
-	fi(0, 2 * n * k) add(p[i], pq[2 * n * k + i]);
-	pq.pop_back();
-	Poly x = pq.TMul(R);
-	fi(0, 2 * n * k) add(p[i], x[i]);
-	return p;
+    if (n == 1) {
+      Poly p(2 * k);
+      irev();
+      fi(0, k) p[2 * i] = V[i];
+      return p;
+    }
+    Poly R(2 * n * k);
+    fi(0, 2 * n * k) R[i] = (i % 2 == 0 ? Q[i] : neg(Q[i]));
+    Poly QQ = Q.Mul(R).isz(4 * n * k);
+    fi(0, 2 * n * k)
+      add(QQ[2 * n * k + i], (Q[i] + R[i]) % mod);
+    Poly nxt_Q(2 * n * k);
+    for(int j = 0; j < 2 * k; j++) fi(0, n / 2)
+      nxt_Q[n * j + i] = QQ[(2 * n) * j + (2 * i + 0)];
+    Poly nxt_p = comp_rec(n / 2, k * 2, nxt_Q);
+    Poly pq(4 * n * k);
+    for(int j = 0; j < 2 * k; j++) fi(0, n / 2)
+      add(pq[(2 * n) * j + (2 * i + 1)], nxt_p[n * j + i]);
+    Poly p(2 * n * k);
+    fi(0, 2 * n * k) add(p[i], pq[2 * n * k + i]);
+    pq.pop_back();
+    Poly x = pq.TMul(R);
+    fi(0, 2 * n * k) add(p[i], x[i]);
+    return p;
   }
   Poly FPScomp(Poly g) { // solves V(g(x))
     int sz = 1; // 2^17, 5s
@@ -311,4 +304,3 @@ struct Poly : vector<int> { // coefficients in [0, P)
 #undef V
 #undef neg
 using Poly_t = Poly<1 << 21, 3>;
-
