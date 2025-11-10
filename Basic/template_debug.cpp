@@ -1,15 +1,15 @@
-template<class A, class B>
-ostream& operator<<(ostream& o, pair<A,B> p)
-{ return o << '(' << p.ff << ',' << p.ss << ')'; }
+ostream& operator<<(ostream &o, pair<auto, auto> p) {
+  return o << '(' << p.ff << ',' << p.ss << ')';
+}
 
 #ifdef zisk
-void debug(){cerr << "\n";}
-template<class T, class ... U>
-void debug(T a, U ... b){cerr << a << " ", debug(b...);}
-template<class T> void pary(T l, T r){
-  while (l != r) cerr << *l << " ", l++;
+void debug() { cerr << "\n"; }
+void debug(auto... a) { ((cerr << a << " "), ...) << "\n"; }
+void pary(auto &&range) {
+  for (auto i : range) cerr << i << " ";
   cerr << "\n";
 }
+void pary(auto l, auto r) { pary(ranges::subrange(l, r)); }
 #else
 #define debug(...) void()
 #define pary(...) void()
