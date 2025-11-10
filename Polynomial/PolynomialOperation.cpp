@@ -101,7 +101,6 @@ struct Poly : vector<int> { // coefficients in [0, P)
 		Y[i] = V[i] - Y[i];
 		add(Y[i], mod);
 	}	
-    //fi(0, n()) if ((Y[i] = V[i] - Y[i]) < 0) Y[i] += P;
     return X.Mul(Y).isz(n());
   }
   // == PART HASH ==
@@ -124,8 +123,6 @@ struct Poly : vector<int> { // coefficients in [0, P)
     const int m = (int)x.size();
     if (!m) return {};
     vector<Poly> down(m * 2);
-    // down[1] = DivMod(up[1]).second;
-    // fi(2, m * 2) down[i] = down[i / 2].DivMod(up[i]).second;
     down[1] = Poly(up[1]).irev().isz(n()).Inv().irev()._tmul(m, V);
     fi(2, m * 2) down[i] = up[i ^ 1]._tmul(up[i].n() - 1, down[i / 2]);
     vector<int> y(m);
@@ -304,8 +301,7 @@ struct Poly : vector<int> { // coefficients in [0, P)
 	return p;
   }
   Poly FPScomp(Poly g) { // solves V(g(x))
-	// 2^17, 5s
-    int sz = 1;
+    int sz = 1; // 2^17, 5s
     while(sz < n() || sz < g.n()) sz <<= 1;
     return isz(sz), comp_rec(sz, 1, g.imul(mod-1).isz(2 * sz)).isz(sz).irev();
   }
