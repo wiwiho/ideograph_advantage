@@ -8,8 +8,8 @@ struct AC_Automaton {
     return total++;
   }
   void init(int len) {  // len >= 1 + total len
-    child.assign(len, vector<int>(26, -1));
-    next.assign(len, vector<int>(26, -1));
+    child.assign(len, vector<int>(SIGMA, -1));
+    next.assign(len, vector<int>(SIGMA, -1));
     fail.assign(len, -1); cnt.assign(len, 0);
     ord.clear();
     newnode(); 
