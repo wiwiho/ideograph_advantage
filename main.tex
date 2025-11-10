@@ -110,15 +110,17 @@ stringstyle=\itshape\color{Green4},
 \newcommand{\inputcode}[2]{
     \IfFileExists{#2.auto}{
         \subsection[#1]{#1 \footnotesize{[\texttt{\getfilehash{#2}}]}}
+        \vspace{-.2cm}
         \lstinputlisting{#2.auto}
     }{
         \subsection[#1]{#1 \footnotesize{[\texttt{\getfilehash{#2}}]}}
+        \vspace{-.2cm}
         \lstinputlisting{#2}
     }
 }
 \newcommand{\inputcodemanualhash}[3]{
     \subsection[#1]{#1 \footnotesize{[\texttt{#3}]}}
-
+    \vspace{-.2cm}
     \lstinputlisting{#2}
 }
 
