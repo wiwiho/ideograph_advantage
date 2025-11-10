@@ -150,8 +150,7 @@ struct Poly : vector<int> { // coefficients in [0, P)
     return down[1];
   }
   pair<Poly, Poly> DivMod(const Poly &rhs) const { // SCOPE HASH
-                                                   // 5e5, 0.9s
-    if (n() < rhs.n()) return {{0}, V};
+    if (n() < rhs.n()) return {{0}, V}; // 5e5, 0.9s
     const int m = n() - rhs.n() + 1;
     Poly X(rhs); // (rhs.)back() != 0 
     X.irev().isz(m);
