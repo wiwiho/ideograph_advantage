@@ -12,7 +12,6 @@ vector<int> BerlekampMassey(const vector<int> &output) {
     }
     vector<int> o(i - f - 1);
 	int k = mul(d[i], -inv(d[f]));
-    //T k = -d[i] / d[f]; 
 	o.push_back(-k);
     for (auto x : he) o.push_back(mul(x, k));
     if (o.size() < me.size()) o.resize(me.size());
