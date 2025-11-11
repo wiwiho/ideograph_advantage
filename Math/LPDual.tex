@@ -1,0 +1,22 @@
+\[ \textstyle
+    \max \sum_{i \in [n]} c_i x_i \Leftrightarrow \min \sum_{j \in [m]} b_j y_j \\
+\]
+\begin{align*}
+    \textstyle \sum_{i\in[n]} a_{ji} x_i \leq b_j & \Leftrightarrow y_j \geq 0 &
+    x_i \geq 0                 & \Leftrightarrow \textstyle \sum_{j\in[m]} a_{ji} y_j \geq c_i \\
+    \textstyle \sum_{i\in[n]} a_{ji} x_i \geq b_j & \Leftrightarrow y_j \leq 0 &
+    x_i \leq 0                 & \Leftrightarrow \textstyle \sum_{j\in[m]} a_{ji} y_j \leq c_i \\
+    \textstyle \sum_{i\in[n]} a_{ji} x_i = b_j    & \Leftrightarrow y_j \in \mathbb{R} &
+    x_i \in \mathbb{R}         & \Leftrightarrow \textstyle \sum_{j\in[m]} a_{ji} y_j = c_i \\
+\end{align*}
+
+\vspace{-.5cm}
+
+$\max c^\top x$ subject to $Ax \leq b, x \geq 0$ $\Leftrightarrow$ $\min b^\top y$ subject to $A^\top y \geq c, y \geq 0$ \\
+$\sum_i c_i x_i \leq \sum_i (\sum_j a_{ji} y_j) x_i = \sum_j (\sum_i a_{ji} x_i) y_j \leq \sum_j b_j y_j$
+
+Complementary slackness:
+\begin{itemize}
+    \item Primal: $\forall i,\ x_i = 0 \lor c_i = \sum_j a_{ji}y_j$
+    \item Dual: $\forall j,\ y_j = 0 \lor b_j = \sum_i a_{ji} x_i$
+\end{itemize}
