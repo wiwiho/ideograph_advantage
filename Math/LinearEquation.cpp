@@ -1,45 +1,49 @@
-vector<int> RREF(vector<vector<ll>> &mat) { // SCOPE HASH
-  int N = SZ(mat), M = SZ(mat[0]);
-  int rk = 0;
+struct GaussJordan { // SCOPE HASH
+  int rk = 0; ll det = 1; // UB if n!=m
+  vector<vector<ll>> rref;
   vector<int> cols;
-  for (int i = 0; i < M; i++) {
-    int cnt = -1;
-    for (int j = N - 1; j >= rk; j--)
-      if(mat[j][i] != 0) cnt = j;
-    if (cnt == -1) continue;
-    swap(mat[rk], mat[cnt]);
-    ll lead = mat[rk][i];
-    for (int j = 0; j < M; j++) mat[rk][j] = mat[rk][j] * inv(lead) % MOD;
-    for (int j = 0; j < N; j++) {
-      if (j == rk) continue;
-      ll tmp = mat[j][i];
-      for (int k = 0; k < M; k++) 
-        mat[j][k] = (mat[j][k] - mat[rk][k] * tmp % MOD + MOD) % MOD;
+  GaussJordan(const vector<vector<ll>> &_rref): rref(_rref) {
+    if (rref.empty()) return;
+    int N = SZ(rref), M = SZ(rref[0]);
+    auto swap_row = [&](int x, int y) {
+      rref[x].swap(rref[y]); if (x != y) det = -det;
+    };
+    auto mul_row = [&](int x, ll mul) {
+      for (auto &v : rref[x]) v = v * mul % MOD;
+      det = det * inv(mul) % MOD;
+    };
+    auto minus_row = [&](int x, int y, ll mul) {
+      for (int k = 0; k < M; k++)
+        rref[x][k] = (rref[x][k] - rref[y][k] * mul % MOD + MOD) % MOD;
+    };
+    for (int i = 0; i < M; i++) {
+      int cnt = -1;
+      for (int j = N - 1; j >= rk; j--)
+        if(rref[j][i] != 0) cnt = j;
+      if (cnt == -1) continue;
+      swap_row(rk, cnt);
+      mul_row(rk, inv(rref[rk][i]));
+      for (int j = 0; j < N; j++)
+        if (j != rk) minus_row(j, rk, rref[j][i]);
+      cols.pb(i); rk++;
     }
-    cols.pb(i);
-    rk++;
+    if (rk < N) det = 0;
+    det = (det % MOD + MOD) % MOD;
   }
-  return cols;
-}
+};
 // sol = particualr + linear combination of homogenous
 struct LinearEquation { // SCOPE HASH
   bool ok;
-  vector<ll> par; //particular solution (Ax = b)
-  vector<vector<ll>> homo; //homogenous (Ax = 0)
-  vector<vector<ll>> rref;
-  //first M columns are matrix A
-  //last column of eq is vector b
-  void solve(const vector<vector<ll>> &eq) {
-    int M = SZ(eq[0]) - 1;
-    rref = eq;
-    auto piv = RREF(rref);
-    int rk = piv.size();
-    if(piv.size() && piv.back() == M)
-      return ok = 0, void();
+  vector<ll> par; //Ax = b
+  vector<vector<ll>> homo; //Ax = 0
+  LinearEquation(int M, const GaussJordan& elim): par(M) {
+    auto &piv = elim.cols;
+    auto &rref = elim.rref;
+    if (!piv.empty() && piv.back() == M)
+    { ok = 0; return; }
     ok = 1;
-    par.resize(M);
     vector<bool> ispiv(M);
-    for (int i = 0;i < rk;i++) {
+    for (int i = 0; i < elim.rk; i++) {
       par[piv[i]] = rref[i][M];
       ispiv[piv[i]] = 1;
     }
@@ -47,7 +51,7 @@ struct LinearEquation { // SCOPE HASH
       if (ispiv[i]) continue;
       vector<ll> h(M);
       h[i] = 1;
-      for (int j = 0; j < rk; j++)
+      for (int j = 0; j < elim.rk; j++)
         h[piv[j]] = rref[j][i] ? MOD - rref[j][i] : 0;
       homo.pb(h);
     }
