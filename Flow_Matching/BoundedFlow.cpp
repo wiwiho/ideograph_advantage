@@ -1,15 +1,12 @@
 struct BoundedFlow : Dinic {
   vector<ll> tot;
-  void init(int _n) {
-    Dinic::init(_n + 2);
-    tot.assign(n, 0);
-  }
+  BoundedFlow(int _n): Dinic(_n + 2), tot(n) {}
   void add_edge(int u, int v, ll lcap, ll rcap) {
     tot[u] -= lcap, tot[v] += lcap;
     g[u].pb(edge{v, rcap, lcap, SZ(g[v])});
     g[v].pb(edge{u, 0, 0, SZ(g[u]) - 1});
   }
-  bool feasible() {
+  bool feasible() { // SCOPE HASH
     ll sum = 0;
     int vs = n - 2, vt = n - 1;
     for(int i = 0; i < n - 2; ++i)
