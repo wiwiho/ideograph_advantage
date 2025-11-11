@@ -4,15 +4,15 @@ vector<int> BerlekampMassey(const vector<int> &output) {
   for (int f = 0, i = 1; i <= SZ(output); ++i) {
     for (int j = 0; j < SZ(me); ++j)
       add(d[i], mul(output[i - j - 2], me[j]));
-	add(d[i], -output[i-1]);
+    add(d[i], -output[i-1]);
     if (d[i] == 0) continue;
     if (me.empty()) {
       me.resize(f = i);
       continue;
     }
     vector<int> o(i - f - 1);
-	int k = mul(d[i], -inv(d[f]));
-	o.push_back(-k);
+    int k = mul(d[i], -inv(d[f]));
+    o.push_back(-k);
     for (auto x : he) o.push_back(mul(x, k));
     if (o.size() < me.size()) o.resize(me.size());
     for (size_t j = 0; j < me.size(); ++j) add(o[j], me[j]);
@@ -38,7 +38,7 @@ int BostanMori(vector<int> P, vector<int> Q, long long k) {
     fill(iter(Qn), 0);
     for(int i = 0; i < d + 1; i++){
       Qn[i] = M[1][i] * ((i & 1) ? -1 : 1);
-	  add(Qn[i], mod);
+      add(Qn[i], mod);
     }
     ntt(Qn, sz, false);
     int t[2] = {(int)k & 1, 0};
