@@ -1,8 +1,8 @@
 // out[i] = me[0]*out[i-1] + me[1]*out[i-2]+...
 vector<int> BerlekampMassey(const vector<int> &output) {
   vector<int> d(output.size() + 1), me, he;
-  for (int f = 0, i = 1; i <= output.size(); ++i) {
-    for (int j = 0; j < me.size(); ++j)
+  for (int f = 0, i = 1; i <= SZ(output); ++i) {
+    for (int j = 0; j < SZ(me); ++j)
       add(d[i], mul(output[i - j - 2], me[j]));
 	add(d[i], -output[i-1]);
     if (d[i] == 0) continue;
