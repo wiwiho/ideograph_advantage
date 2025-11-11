@@ -2,7 +2,7 @@ auto sais(const auto &s) { // SCOPE HASH
   const int n = (int)s.size(), z = ranges::max(s) + 1;
   if (n == 1) return vector{0};
   vector<int> c(z); for (int x : s) ++c[x];
-  partial_sum(all(c), begin(c));
+  partial_sum(iter(c), begin(c));
   vector<int> sa(n); auto I = views::iota(0, n);
   vector<bool> t(n); t[n - 1] = true;
   for (int i = n - 2; i >= 0; --i)
@@ -41,7 +41,7 @@ struct Suffix { // SCOPE HASH
   Suffix(const auto &s) : n(int(s.size())),
     hi(n), rev(n) {
     vector<int> _s(n + 1); // _s[n] = 0;
-    copy(all(s), begin(_s)); // s shouldn't contain 0
+    copy(iter(s), begin(_s)); // s shouldn't contain 0
     sa = sais(_s); sa.erase(sa.begin());
     for (int i = 0; i < n; ++i) rev[sa[i]] = i;
     for (int i = 0, h = 0; i < n; ++i) {
