@@ -1,6 +1,6 @@
 #ifdef zisk
 void debug() { cerr << "\e[0m\n"; }
-template<class T> void _d(T&& x) {
+template<class T> void _d(T&& x) { // SCOPE HASH
   if constexpr (ranges::range<T> && 
       !is_convertible_v<T, string_view>) {
     cerr << "{ "; for (auto&& i : x) _d(i); 
