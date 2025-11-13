@@ -1,5 +1,5 @@
 // out[i] = me[0]*out[i-1] + me[1]*out[i-2]+...
-vector<int> BerlekampMassey(const vector<int> &output) {
+vector<int> BerlekampMassey(const vector<int> &output) { // SCOPE HASH
   vector<int> d(output.size() + 1), me, he;
   for (int f = 0, i = 1; i <= SZ(output); ++i) {
     for (int j = 0; j < SZ(me); ++j)
@@ -26,7 +26,7 @@ vector<int> BerlekampMassey(const vector<int> &output) {
 // Finds the k-th coefficient of P / Q in O(d log d log k)
 // size of NTT has to > 2 * d
 NTT<1<<19, 3> ntt;
-int BostanMori(vector<int> P, vector<int> Q, long long k) {
+int BostanMori(vector<int> P, vector<int> Q, long long k) { // SCOPE HASH
   int d = max((int)P.size(), (int)Q.size() - 1);
   vector M = {P, Q};
   M[0].resize(d, 0);
@@ -56,8 +56,8 @@ int BostanMori(vector<int> P, vector<int> Q, long long k) {
   }
   return mul(M[0][0], inv(M[1][0]));
 }
-
-int LinearRecursion(vector<int> a, vector<int> c, ll k) { // a_n = \sum_{j=1}^{d} c_j a_(n-j), c_0 = 0
+// a_n = \sum_{j=1}^{d} c_j a_(n-j), c_0 = 0 
+int LinearRecursion(vector<int> a, vector<int> c, ll k) { // SCOPE HASH
   int d = SZ(a), sz = 1; // 1e5, 5s
   while(sz <= 2*d) sz <<= 1;
   c[0] = mod - 1;

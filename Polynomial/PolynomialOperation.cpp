@@ -20,19 +20,9 @@ struct Poly : vector<int> { // coefficients in [0, P)
     fi(0, n()) V[i] = mul(V[i], k);
     return V;
   }
-  Poly mul_xk(int m){ // SCOPE HASH
-    if(m<0){
-      m = -m;
-      fi(0, n() - m) V[i] = V[i+m];
-      isz(n() - m);
-    }
-    else if(m>0){
-      isz(n() + m);
-      for(int i=n()-1;i>=0;i--){
-        if(i>=m) V[i] = V[i-m];
-        else V[i]=0; 
-      }
-    }
+  Poly &mul_xk(int m){ // SCOPE HASH
+    if(m<0) erase(begin(), begin()+(-m));
+    else if(m>0) insert(begin(), m, 0);
     return V;
   }
   Poly Mul(const Poly &rhs) const { // SCOPE HASH
